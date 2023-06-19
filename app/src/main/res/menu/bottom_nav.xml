@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_start"
+        android:icon="@drawable/ic_start_24"
+        android:title="@string/start" />
+    <item
+        android:id="@+id/nav_notiz"
+        android:icon="@drawable/ic_notiz_24"
+        android:title="@string/notiz" />
+    <item
+        android:id="@+id/nav_zusammenfassung"
+        android:icon="@drawable/ic_zusammenfassung_24"
+        android:title="@string/zusammenfassung" />
+    <item
+        android:id="@+id/nav_wissen"
+        android:icon="@drawable/ic_wissen_24"
+        android:title="@string/wissen" />
+    <item
+        android:id="@+id/nav_einstellungen"
+        android:icon="@drawable/ic_einstellungen_24"
+        android:title="@string/einstellungen" />
+</menu>

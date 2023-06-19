@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Tracker_Ainura</string>
+    <string name="app_name">Periodentracker</string>
+    <string name="notiz">Notiz</string>
+    <string name="einstellungen">Einstellungen</string>
+    <string name="wissen">Wissen</string>
+    <string name="zusammenfassung">Zusammenfassung</string>
+    <string name="start">Start</string>
 </resources>

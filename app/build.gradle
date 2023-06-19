@@ -6,6 +6,10 @@ android {
     namespace 'com.example.tracker_ainura'
     compileSdk 33
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId "com.example.tracker_ainura"
         minSdk 24
