@@ -5,4 +5,12 @@
     <string name="wissen">Wissen</string>
     <string name="zusammenfassung">Zusammenfassung</string>
     <string name="start">Start</string>
+    <string name="titelWillkommen">Hallo!</string>
+    <string name="titelDesc1">Diese App ist dafür konzipiert, deinen Zyklus aufzuzeichnen.</string>
+    <string name="titelDesc2">Wenn du willst, kannst du die auf den Aufzeichnungen basierenden Empfehlungen in dein Training aufnehmen.</string>
+    <string name="welcomeEingabe">Bitte fülle zuerst diese Felder aus:</string>
+    <string name="durchschnittliche_länge">Durchschnittliche Zykluslänge</string>
+    <string name="letzterTag">Wann war der erste Tag deines aktuellen Zyklus?</string>
+    <string name="ausw_hlen">Auswählen</string>
+    <string name="starten">Starten</string>
 </resources>

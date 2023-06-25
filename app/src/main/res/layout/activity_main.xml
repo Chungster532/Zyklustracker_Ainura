@@ -4,7 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="24dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="8dp"
+        android:id="@+id/cardview_aktuell">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_margin="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Tag: Phase"
+                android:textSize="24sp"
+                android:id="@+id/textview_phase"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Trainingsempfehlung"
+                android:id="@+id/textview_trainingsempfehlung"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cardview_aktuell"
+        app:layout_constraintBottom_toTopOf="@id/button_ersterTag"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="8dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_margin="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Nächste Phasen:"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/textview_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Menstruationsphase:"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/textview_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Follikelphase:"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/textview_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Ovulation:"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/textview_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Lutealphase:"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Tag der Periode"
+        android:layout_marginBottom="24dp"
+        android:id="@+id/button_ersterTag"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
