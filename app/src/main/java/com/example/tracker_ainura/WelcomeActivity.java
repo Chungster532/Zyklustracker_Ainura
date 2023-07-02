@@ -27,6 +27,9 @@ public class WelcomeActivity extends AppCompatActivity {
         boolean firstTime = prefs.getBoolean("FirstTimeRun", true);
         SharedPreferences userData = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if(firstTime){
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("FirstTimeRun", false);
+            editor.apply();
             binding.buttonStarten.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -55,9 +58,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             });
         }else{
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("FirstTimeRun", false);
-            editor.apply();
             Intent welcomeIntent = new Intent(WelcomeActivity.this, MainActivity.class);
             startActivity(welcomeIntent);
         }
