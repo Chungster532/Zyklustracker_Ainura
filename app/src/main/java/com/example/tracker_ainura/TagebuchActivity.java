@@ -1,29 +1,32 @@
 package com.example.tracker_ainura;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
-import com.example.tracker_ainura.databinding.ActivityNotizBinding;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.example.tracker_ainura.Adapters.NotizenListeAdapter;
+import com.example.tracker_ainura.Database.RoomDB;
+import com.example.tracker_ainura.Models.Notizen;
 import com.example.tracker_ainura.databinding.ActivityTagebuchBinding;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 
-public class TagebuchActivity extends AppCompatActivity {
-
-    static ArrayList<String> notizen = new ArrayList<>();
-    static ArrayAdapter arrayAdapter;
+public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private ActivityTagebuchBinding binding;
+    NotizenListeAdapter notizenListeAdapter;
+    List<Notizen> notizen = new ArrayList<>();
+    RoomDB database;
+    Notizen selectedNotiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,46 +35,86 @@ public class TagebuchActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("com.example.tracker_ainura", Context.MODE_PRIVATE);
-        HashSet<String> set = (HashSet<String>) sharedPreferences.getStringSet("notizen", null);
-        if (set == null){
-            notizen.add("Example note");
-        }else{
-            notizen = new ArrayList(set);
-        }
+        database = RoomDB.getInstance(this);
+        notizen = database.notizenDao().getAll();
 
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, notizen);
-        binding.listView.setAdapter(arrayAdapter);
+        updateRecycler(notizen);
 
         binding.buttonNotizErstellen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent notizErstellenIntent = new Intent(getApplicationContext(), NotizActivity.class);
-                startActivity(notizErstellenIntent);
+                Intent notizErstellen = new Intent(TagebuchActivity.this, NotizActivity.class);
+                startActivityForResult(notizErstellen, 101);//101 zum Erstellen, 102 zum Bearbeiten
             }
         });
-        binding.listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int itemToDelete = i;
-                new AlertDialog.Builder(TagebuchActivity.this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Soll diese Notiz gelöscht werden?")
-                        .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                notizen.remove(itemToDelete);
-                                arrayAdapter.notifyDataSetChanged();
+    }
 
-                                SharedPreferences sharedPreferences = getApplication().getSharedPreferences("com.example.tracker_ainura", Context.MODE_PRIVATE);
-                                HashSet<String> set = new HashSet(TagebuchActivity.notizen);
-                                sharedPreferences.edit().putStringSet("notizen", set).apply();
-                            }
-                        })
-                        .setNegativeButton("Nein", null)
-                        .show();
-                return true;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==101){
+            if (resultCode== Activity.RESULT_OK){
+                Notizen neueNotiz = (Notizen) data.getSerializableExtra("notiz");
+                database.notizenDao().insert(neueNotiz);
+                notizen.clear();
+                notizen.addAll(database.notizenDao().getAll());
+                notizenListeAdapter.notifyDataSetChanged();
             }
-        });
+        } else if (requestCode==102){
+            if(resultCode==Activity.RESULT_OK){
+                Notizen neue_notiz = (Notizen) data.getSerializableExtra("notiz");
+                database.notizenDao().update(neue_notiz.getId(), neue_notiz.getDatum(), neue_notiz.getTagZyklus(), neue_notiz.getTraining(), neue_notiz.getBlutung(), neue_notiz.getStimmung(), neue_notiz.getSonstiges());
+                notizen.clear();
+                notizen.addAll(database.notizenDao().getAll());
+                notizenListeAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private void updateRecycler(List<Notizen> notizen) {
+        binding.recyclerviewTagebuch.setHasFixedSize(true);
+        binding.recyclerviewTagebuch.setLayoutManager(new LinearLayoutManager(this));
+        notizenListeAdapter = new NotizenListeAdapter(TagebuchActivity.this, notizen, notizenClickListener);
+        binding.recyclerviewTagebuch.setAdapter(notizenListeAdapter);
+    }
+
+    private final NotizenClickListener notizenClickListener = new NotizenClickListener() {
+        @Override
+        public void onClick(Notizen notiz) {
+            Intent notizBearbeiten = new Intent(TagebuchActivity.this, NotizActivity.class);
+            notizBearbeiten.putExtra("alte_notiz", notiz);
+            startActivityForResult(notizBearbeiten, 102);
+
+        }
+
+        @Override
+        public void onLongClick(Notizen notiz, CardView cardview) {
+            selectedNotiz = new Notizen();
+            selectedNotiz = notiz;
+            showPopup(cardview);
+
+        }
+    };
+
+    private void showPopup(CardView cardview) {
+        PopupMenu popupMenu = new PopupMenu(this, cardview);
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.delete:
+                database.notizenDao().delete(selectedNotiz);
+                notizen.remove(selectedNotiz);
+                notizenListeAdapter.notifyDataSetChanged();
+                Toast.makeText(this, "Notiz wurde gelöscht", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return false;
+        }
     }
 }

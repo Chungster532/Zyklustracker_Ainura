@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/item_zusammenfassung"
+        android:title="Zusammenfassung"
+        android:icon="@drawable/ic_zusammenfassung_24"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_tagebuch_notiz"
+        android:title="Tagebuch"
+        android:icon="@drawable/baseline_edit_note_24"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_wissen"
+        android:title="Wissen"
+        android:icon="@drawable/ic_wissen_24"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_einstellungen"
+        android:title="Einstellungen"
+        android:icon="@drawable/ic_einstellungen_24"
+        app:showAsAction="never"/>
+
+</menu>

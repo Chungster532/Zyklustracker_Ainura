@@ -4,101 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:padding="24dp">
+    android:padding="24dp"
+    tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_aktuell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:cardCornerRadius="8dp"
-        android:id="@+id/cardview_aktuell">
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_margin="20dp"
             android:gravity="center"
-            android:layout_margin="20dp">
+            android:orientation="vertical">
+
             <TextView
+                android:id="@+id/textview_phase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Tag: Phase"
                 android:textSize="24sp"
-                android:id="@+id/textview_phase"/>
+                tools:text="Tag: Phase" />
+
             <TextView
+                android:id="@+id/textview_trainingsempfehlung"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Trainingsempfehlung"
-                android:id="@+id/textview_trainingsempfehlung"/>
+                tools:text="Trainingsempfehlung" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/cardview_aktuell"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
         app:layout_constraintBottom_toTopOf="@id/button_ersterTag"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:cardCornerRadius="8dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardview_aktuell">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_margin="20dp"
             android:gravity="center"
-            android:layout_margin="20dp">
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Nächste Phasen:"
-                android:textSize="24sp"/>
+                android:layout_marginBottom="4dp"
+                android:text="Nächste Phasen:"
+                android:textSize="24sp" />
+
             <TextView
                 android:id="@+id/textview_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Menstruationsphase:"
-                android:textSize="16sp"/>
+                android:layout_marginBottom="4dp"
+                android:textSize="16sp"
+                tools:text="Menstruationsphase:" />
+
             <TextView
                 android:id="@+id/textview_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Follikelphase:"
-                android:textSize="16sp"/>
+                android:layout_marginBottom="4dp"
+                android:textSize="16sp"
+                tools:text="Follikelphase:" />
+
             <TextView
                 android:id="@+id/textview_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Ovulation:"
-                android:textSize="16sp"/>
+                android:layout_marginBottom="4dp"
+                android:textSize="16sp"
+                tools:text="Ovulation:" />
+
             <TextView
                 android:id="@+id/textview_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Lutealphase:"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                tools:text="Lutealphase:" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <Button
+        android:id="@+id/button_ersterTag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1. Tag der Periode"
         android:layout_marginBottom="24dp"
-        android:id="@+id/button_ersterTag"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"/>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:text="1. Tag der Periode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

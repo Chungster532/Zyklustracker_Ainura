@@ -13,9 +13,8 @@
             android:text="Neue Notiz"
             android:id="@+id/button_notiz_erstellen"
             android:layout_marginBottom="12dp"/>
-        <ListView
-            android:layout_width="match_parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_tagebuch"
             android:layout_height="match_parent"
-            android:id="@+id/list_view">
-        </ListView>
+            android:layout_width="match_parent"/>
 </LinearLayout>

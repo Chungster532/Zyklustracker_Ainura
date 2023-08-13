@@ -4,16 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ZusammenfassungActivity"
-    android:padding="24dp">
+    android:padding="24dp"
+    tools:context=".ZusammenfassungActivity">
 
     <Button
+        android:id="@+id/button_tagebuch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tagebuch ansehen"
-        android:id="@+id/button_tagebuch"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_laengeDurchschnitt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Durchschnittliche Zyklus-Länge: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_tagebuch"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"/>
+
+    <TextView
+        android:id="@+id/textview_letzteZyklen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Letzte Zyklen: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_laengeDurchschnitt"
+        android:textSize="24sp"
+        android:paddingBottom="4dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_zyklen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_letzteZyklen"
+        android:layout_marginBottom="12dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
