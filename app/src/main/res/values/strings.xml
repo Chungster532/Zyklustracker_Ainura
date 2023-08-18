@@ -6,13 +6,10 @@
     <string name="zusammenfassung">Zusammenfassung</string>
     <string name="start">Start</string>
     <string name="titelWillkommen">Hallo!</string>
-    <string name="titelDesc1">Diese App ist dafür konzipiert, deinen Zyklus aufzuzeichnen.</string>
-    <string name="titelDesc2">Wenn du willst, kannst du die auf den Aufzeichnungen basierenden Empfehlungen in dein Training aufnehmen.</string>
+    <string name="titelDesc1">Diese App *sollte* dich bei der Analyse des Menstruationszyklus für zyklusgesteuertes Training unterstützen. Sie rechnet aus, wann welche Phase des Menstruationszyklus auftritt und gibt Tipps, wie du dein Training darauf anpassen kannst. Für zyklusgesteuertes Training ist eine gute Analyse essenziell, damit Regelmässigkeiten erkennt werden können. Das kannst du mit der Notiz-Funktion erledigen.</string>
     <string name="welcomeEingabe">Bitte fülle zuerst diese Felder aus:</string>
     <string name="durchschnittliche_länge">Durchschnittliche Zykluslänge</string>
     <string name="letzterTag">Wann war der erste Tag deines aktuellen Zyklus?</string>
     <string name="ausw_hlen">Auswählen</string>
     <string name="starten">Starten</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

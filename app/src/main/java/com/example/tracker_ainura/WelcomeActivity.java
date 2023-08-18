@@ -52,7 +52,10 @@ public class WelcomeActivity extends AppCompatActivity {
                 String letztePeriode = tagStrFertig+"-"+monatStrFertig+"-"+jahr;
                 if (laenge.isEmpty() || laengeMens.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Bitte fülle alle Felder aus", Toast.LENGTH_LONG).show();
-                } else {
+                }else if (Integer.parseInt(laenge)<Integer.parseInt(laengeMens)){
+                    Toast.makeText(getApplicationContext(), "Die Periode darf nicht länger als der Zyklus sein", Toast.LENGTH_LONG).show();
+                }
+                else {
                     erstePeriodeSpeichern(laenge, laengeMens, letztePeriode);
                     SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();

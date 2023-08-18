@@ -3,11 +3,14 @@ package com.example.tracker_ainura;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -47,6 +50,34 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
                 startActivityForResult(notizErstellen, 101);//101 zum Erstellen, 102 zum Bearbeiten
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_einstellungen:
+                Intent einstellungenIntent = new Intent(TagebuchActivity.this, EinstellungenActivity.class);
+                startActivity(einstellungenIntent);
+                return true;
+            case R.id.item_wissen:
+                Intent wissenIntent = new Intent(TagebuchActivity.this, WissenActivity.class);
+                startActivity(wissenIntent);
+                return true;
+            case R.id.item_zusammenfassung:
+                Intent zusammenfassungIntent = new Intent(TagebuchActivity.this, ZusammenfassungActivity.class);
+                zusammenfassungIntent.putExtra("ausNeuerPeriode", false);
+                startActivity(zusammenfassungIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

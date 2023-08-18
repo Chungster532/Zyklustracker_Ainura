@@ -1,5 +1,6 @@
 package com.example.tracker_ainura;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.tracker_ainura.Adapters.ZyklenListeAdapter;
@@ -47,6 +51,33 @@ public class ZusammenfassungActivity extends AppCompatActivity {
             Intent tagebuchActivity = new Intent(ZusammenfassungActivity.this, TagebuchActivity.class);
             startActivity(tagebuchActivity);
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_einstellungen:
+                Intent einstellungenIntent = new Intent(ZusammenfassungActivity.this, EinstellungenActivity.class);
+                startActivity(einstellungenIntent);
+                return true;
+            case R.id.item_wissen:
+                Intent wissenIntent = new Intent(ZusammenfassungActivity.this, WissenActivity.class);
+                startActivity(wissenIntent);
+                return true;
+            case R.id.item_tagebuch_notiz:
+                Intent notizenIntent = new Intent(ZusammenfassungActivity.this, TagebuchActivity.class);
+                startActivity(notizenIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setMensLaenge() {

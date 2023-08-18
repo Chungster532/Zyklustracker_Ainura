@@ -95,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:hint="Sonstiges (z.B. Ernährung, Gewicht, etc.)"
+                android:hint="Sonstiges (z.B. Ernährung, Schlaf, Gewicht, etc.)"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textinputlayout_stimmung">
