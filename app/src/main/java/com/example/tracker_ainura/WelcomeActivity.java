@@ -54,6 +54,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bitte fülle alle Felder aus", Toast.LENGTH_LONG).show();
                 }else if (Integer.parseInt(laenge)<Integer.parseInt(laengeMens)){
                     Toast.makeText(getApplicationContext(), "Die Periode darf nicht länger als der Zyklus sein", Toast.LENGTH_LONG).show();
+                }else if(Integer.parseInt(laenge)>37 || Integer.parseInt(laengeMens)>8){
+                    Toast.makeText(getApplicationContext(), "Zu grosse Werte", Toast.LENGTH_LONG).show();
                 }
                 else {
                     erstePeriodeSpeichern(laenge, laengeMens, letztePeriode);

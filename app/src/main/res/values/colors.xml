@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="mens">#ff4d4d</color>
+    <color name="follikel">#66ff8f</color>
+    <color name="ovulation">#ff66ff</color>
+    <color name="luteal">#66d9ff</color>
 </resources>
