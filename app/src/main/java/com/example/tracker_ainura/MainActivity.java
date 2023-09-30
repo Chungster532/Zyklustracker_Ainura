@@ -54,15 +54,32 @@ public class MainActivity extends AppCompatActivity {
         LocalDate date1 = LocalDate.parse(letztePeriode, formatter);
 
         ausrechnen(date1, laengeMens, laenge);
+        setUpBtn();
 
-        binding.buttonErsterTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent neuePeriodeIntent = new Intent(MainActivity.this, NeuePeriodeActivity.class);
-                startActivity(neuePeriodeIntent);
-            }
-        });
+    }
 
+    private void setUpBtn() {
+        SharedPreferences prefs = getSharedPreferences("SharedPrefs", MODE_PRIVATE);
+        boolean periode = prefs.getBoolean("Periode", false);
+        if(periode){
+            binding.buttonErsterTag.setText("Ende der Periode?");
+            binding.buttonErsterTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent endePeriodeIntent = new Intent(MainActivity.this, EndePeriodeActivity.class);
+                    startActivity(endePeriodeIntent);
+                }
+            });
+        }else{
+            binding.buttonErsterTag.setText("1. Tag der Periode?");
+            binding.buttonErsterTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent neuePeriodeIntent = new Intent(MainActivity.this, NeuePeriodeActivity.class);
+                    startActivity(neuePeriodeIntent);
+                }
+            });
+        }
     }
 
     @Override

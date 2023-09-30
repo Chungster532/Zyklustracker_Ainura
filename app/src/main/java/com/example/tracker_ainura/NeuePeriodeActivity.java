@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.tracker_ainura.Database.RoomDB;
 import com.example.tracker_ainura.Database.RoomDB_Impl;
@@ -67,42 +68,57 @@ public class NeuePeriodeActivity extends AppCompatActivity {
         String aktuellePeriode = tagStrFertig+"-"+monatStrFertig+"-"+jahr;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        LocalDate date2 = parse(aktuellePeriode, formatter);
+        LocalDate heute = LocalDate.now();
         String letztePeriode = prefs.getString("letztePeriode", "");
         LocalDate date1 = parse(letztePeriode, formatter);
-        LocalDate date2 = parse(aktuellePeriode, formatter);
-        LocalDate periodePrefs = date2;
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String periodePrefsFertig = df.format(periodePrefs);
-        Zyklen zyklus = new Zyklen();
-        zyklus.setLaenge(zyklusLaengeAusrechnen(date2, prefs));
-        neuePeriodeInPrefsSpeichern(periodePrefsFertig, prefs);
-        date2 = date2.minusDays(1);
-        zyklus.setStart(df.format(date1));
-        zyklus.setEnde(df.format(date2));
-        RoomDB database_zyklen = RoomDB.getInstance(this);
-        database_zyklen.zyklenDao().insert(zyklus);
+        long daysBetween = ChronoUnit.DAYS.between(date1, date2.plusDays(1));
 
-        Intent returnIntent = new Intent(NeuePeriodeActivity.this, ZusammenfassungActivity.class);
-        returnIntent.putExtra("zyklus", zyklus);
-        startActivity(returnIntent);
+        if (daysBetween<15){
+            Toast.makeText(this, "Zyklus kann nicht kürzer als 15 Tage sein", Toast.LENGTH_SHORT).show();
+        }else if(date2.isAfter(heute)){
+            Toast.makeText(this, "Es darf kein zukünftiges Datum ausgewählt werden", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            LocalDate periodePrefs = date2;
+            String periodePrefsFertig = formatter.format(periodePrefs);
+            Zyklen zyklus = new Zyklen();
+            zyklus.setLaenge(Long.toString(daysBetween));
+            neuePeriodeInPrefsSpeichern(periodePrefsFertig, prefs);
+            date2 = date2.minusDays(1);
+            zyklus.setStart(formatter.format(date1));
+            zyklus.setEnde(formatter.format(date2));
+            String laengePeriode = prefs.getString("laengeMens", "");
+            zyklus.setLaengePeriode(laengePeriode);
+            RoomDB database_zyklen = RoomDB.getInstance(this);
+            database_zyklen.zyklenDao().insert(zyklus);
+
+            durchschnittAusrechnen(date2, prefs);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("Periode", true);
+            editor.commit();
+
+            Intent returnIntent = new Intent(NeuePeriodeActivity.this, ZusammenfassungActivity.class);
+            returnIntent.putExtra("zyklus", zyklus);
+            startActivity(returnIntent);
+        }
 
         return null;
     }
 
-    private String zyklusLaengeAusrechnen(LocalDate date2, SharedPreferences prefs) {
+    private void durchschnittAusrechnen(LocalDate date2, SharedPreferences prefs) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String letztePeriode = prefs.getString("letztePeriode", "");
         int laenge = Integer.parseInt(prefs.getString("laenge", ""));
         LocalDate date1 = parse(letztePeriode, formatter);
         long differenz = ChronoUnit.DAYS.between(date1, date2);
-        String laengeDb = Long.toString(differenz);
         int differenzKonvertiert = Long.valueOf(differenz).intValue();
         int durchschnitt = (differenzKonvertiert+laenge)/2;
         String fertigeLaenge = String.valueOf(durchschnitt);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("laenge", fertigeLaenge);
         editor.commit();
-        return laengeDb;
     }
 
     public void neuePeriodeInPrefsSpeichern(String letztePeriode, SharedPreferences prefs) {

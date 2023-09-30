@@ -21,6 +21,13 @@ public class Zyklen implements Serializable { //Serializable: enables data to be
     @ColumnInfo(name = "laenge")
     String laenge = "";
 
+    @ColumnInfo(name = "laengePeriode")
+    String laengePeriode = "";
+
+    public String getLaengePeriode() {return laengePeriode;}
+
+    public void setLaengePeriode(String laengePeriode) {this.laengePeriode = laengePeriode;}
+
     public int getId() {
         return id;
     }

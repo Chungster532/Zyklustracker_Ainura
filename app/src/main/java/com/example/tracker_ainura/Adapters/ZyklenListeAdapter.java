@@ -33,7 +33,7 @@ public class ZyklenListeAdapter extends RecyclerView.Adapter<ZyklenViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ZyklenViewHolder holder, int position) {
-        holder.textview_beschreibung.setText(liste.get(position).getStart()+" - "+liste.get(position).getEnde()+", "+liste.get(position).getLaenge()+" Tage");
+        holder.textview_beschreibung.setText(liste.get(position).getStart()+" - "+liste.get(position).getEnde()+" ("+liste.get(position).getLaenge()+" Tage), Periode: "+liste.get(position).getLaengePeriode()+" Tage");
     }
 
     @Override

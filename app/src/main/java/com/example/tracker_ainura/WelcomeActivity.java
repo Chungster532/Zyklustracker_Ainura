@@ -11,6 +11,10 @@ import android.widget.Toast;
 
 import com.example.tracker_ainura.databinding.ActivityWelcomeBinding;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 public class WelcomeActivity extends AppCompatActivity {
 
     private ActivityWelcomeBinding binding;
@@ -49,13 +53,23 @@ public class WelcomeActivity extends AppCompatActivity {
                 }else{
                     monatStrFertig = Integer.toString(monat);
                 }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                LocalDate heute = LocalDate.now();
                 String letztePeriode = tagStrFertig+"-"+monatStrFertig+"-"+jahr;
+                LocalDate date1 = LocalDate.parse(letztePeriode, formatter );
                 if (laenge.isEmpty() || laengeMens.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Bitte fülle alle Felder aus", Toast.LENGTH_LONG).show();
                 }else if (Integer.parseInt(laenge)<Integer.parseInt(laengeMens)){
                     Toast.makeText(getApplicationContext(), "Die Periode darf nicht länger als der Zyklus sein", Toast.LENGTH_LONG).show();
+                }else if(Integer.parseInt(laenge)<20 || Integer.parseInt(laenge)>45){
+                    Toast.makeText(getApplicationContext(), "Länge Zyklus invalid", Toast.LENGTH_LONG).show();
+                }else if(Integer.parseInt(laengeMens)>8 || Integer.parseInt(laengeMens)<3){
+                    Toast.makeText(getApplicationContext(), "Länge Periode invalid", Toast.LENGTH_LONG).show();
+                }else if(date1.isAfter(heute)){
+                    Toast.makeText(WelcomeActivity.this, "Es darf kein zukünftiges Datum ausgewählt werden", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    istPeriode(laengeMens, letztePeriode);
                     erstePeriodeSpeichern(laenge, laengeMens, letztePeriode);
                     SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
@@ -67,6 +81,22 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    private void istPeriode(String laengeMens, String letztePeriode) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date1 = LocalDate.parse(letztePeriode, formatter);
+        LocalDate date2 = LocalDate.now();
+        long daysBetween = ChronoUnit.DAYS.between(date1, date2.plusDays(1));
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        if(daysBetween<8){
+            editor.putBoolean("Periode", true);
+            editor.commit();
+        }else{
+            editor.putBoolean("Periode", false);
+            editor.commit();
+        }
     }
 
     public void erstePeriodeSpeichern(String laenge, String laengeMens, String letztePeriode) {
