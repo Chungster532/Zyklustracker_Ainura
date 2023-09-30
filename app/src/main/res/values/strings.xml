@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Periodentracker</string>
+    <string name="app_name">Tracker</string>
     <string name="notiz">Notiz</string>
     <string name="einstellungen">Einstellungen</string>
     <string name="wissen">Wissen</string>
@@ -9,7 +9,7 @@
     <string name="titelDesc1">Diese App *sollte* dich bei der Analyse des Menstruationszyklus für zyklusgesteuertes Training unterstützen. Sie rechnet aus, wann welche Phase des Menstruationszyklus auftritt und gibt Tipps, wie du dein Training darauf anpassen kannst. Für zyklusgesteuertes Training ist eine gute Analyse essenziell, damit Regelmässigkeiten erkennt werden können. Das kannst du mit der Notiz-Funktion erledigen.</string>
     <string name="welcomeEingabe">Bitte fülle zuerst diese Felder aus:</string>
     <string name="durchschnittliche_länge">Durchschnittliche Zykluslänge</string>
-    <string name="letzterTag">Wann war der erste Tag deines aktuellen Zyklus?</string>
+    <string name="letzterTag">1. Tag des aktuellen Zyklus (1. Tag Blutung)</string>
     <string name="ausw_hlen">Auswählen</string>
     <string name="starten">Starten</string>
 </resources>
