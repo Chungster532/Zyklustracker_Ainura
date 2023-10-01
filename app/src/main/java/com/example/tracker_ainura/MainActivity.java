@@ -8,21 +8,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.applandeo.materialcalendarview.EventDay;
 import com.example.tracker_ainura.Adapters.ZyklenListeAdapter;
 import com.example.tracker_ainura.Database.RoomDB;
 import com.example.tracker_ainura.Models.Zyklen;
 import com.example.tracker_ainura.databinding.ActivityMainBinding;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -113,95 +118,203 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
     private void ausrechnen(LocalDate date1, int laengeMens, int zyklus) {
+
+        Calendar min = Calendar.getInstance();
+        min.add(Calendar.DATE, -1);
+        binding.calenderviewPhasen.setMinimumDate(min);
+
         LocalDate date2 = LocalDate.now();
         long daysBetween = ChronoUnit.DAYS.between(date1, date2.plusDays(1));
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        ZoneId zoneId = ZoneId.systemDefault();
 
-        if (daysBetween <= laengeMens) {
-            String m1 = df.format(date1.plusDays(zyklus));
-            String m2 = df.format(date1.plusDays(zyklus * 2));
-            String m3 = df.format(date1.plusDays(zyklus * 3));
-            String f1 = df.format(date1.plusDays(laengeMens));
-            String f2 = df.format(date1.plusDays(laengeMens+zyklus));
-            String f3 = df.format(date1.plusDays(laengeMens+zyklus*2));
-            String o1 = df.format(date1.plusDays(zyklus/2));
-            String o2 = df.format(date1.plusDays(zyklus/2+zyklus));
-            String o3 = df.format(date1.plusDays(zyklus/2+zyklus*2));
-            String l1 = df.format(date1.plusDays(zyklus/2+3));
-            String l2 = df.format(date1.plusDays(zyklus/2+3+zyklus));
-            String l3 = df.format(date1.plusDays(zyklus/2+3+zyklus*2));
-            binding.textviewPhase.setText(daysBetween + ". Tag: Menstruationsphase");
-            binding.textviewTrainingsempfehlung.setText("Niedrigere Intensität (z.B. lockeres Ausdauertraining, Yoga, Stretching). Hartes Krafttraining kann schaden, weil schützendes Estradiol fehlt");
-            binding.textview4.setText("Nächste Menstruationsphase:\n" + m1 + ", " + m2 + ", " + m3);
-            binding.textview1.setText("Nächste Follikelphase:\n" + f1 + ", " + f2 + ", " + f3);
-            binding.textview2.setText("Nächste Ovulationsphase:\n" + o1 + ", " + o2 + ", " + o3);
-            binding.textview3.setText("Nächste Lutealphase:\n" + l1 + ", " + l2 + ", " + l3);
-        } else if (daysBetween <= 7 + laengeMens) {
-            String m1 = df.format(date1.plusDays(zyklus));
-            String m2 = df.format(date1.plusDays(zyklus * 2));
-            String m3 = df.format(date1.plusDays(zyklus * 3));
-            String f1 = df.format(date1.plusDays(laengeMens+zyklus));
-            String f2 = df.format(date1.plusDays(laengeMens+zyklus*2));
-            String f3 = df.format(date1.plusDays(laengeMens+zyklus*3));
-            String o1 = df.format(date1.plusDays(zyklus/2));
-            String o2 = df.format(date1.plusDays(zyklus/2+zyklus));
-            String o3 = df.format(date1.plusDays(zyklus/2+zyklus*2));
-            String l1 = df.format(date1.plusDays(zyklus/2+3));
-            String l2 = df.format(date1.plusDays(zyklus/2+3+zyklus));
-            String l3 = df.format(date1.plusDays(zyklus/2+3+zyklus*2));
-            binding.textviewPhase.setText(daysBetween + ". Tag: Follikelphase");
-            binding.textviewTrainingsempfehlung.setText("Perfekter Zeitpunkt für Krafttraining: Trainingseffekt besonders hoch, da Estradiol Muskulatur stärker auf Trainingsreize reagieren lässt.");
-            binding.textview1.setText("Nächste Menstruationsphase:\n" + m1 + ", " + m2 + ", " + m3);
-            binding.textview4.setText("Nächste Follikelphase:\n" + f1 + ", " + f2 + ", " + f3);
-            binding.textview2.setText("Nächste Ovulationsphase:\n" + o1 + ", " + o2 + ", " + o3);
-            binding.textview3.setText("Nächste Lutealphase:\n" + l1 + ", " + l2 + ", " + l3);
-        } else if (daysBetween <= 16) {
-            String m1 = df.format(date1.plusDays(zyklus));
-            String m2 = df.format(date1.plusDays(zyklus * 2));
-            String m3 = df.format(date1.plusDays(zyklus * 3));
-            String f1 = df.format(date1.plusDays(laengeMens+zyklus));
-            String f2 = df.format(date1.plusDays(laengeMens+zyklus*2));
-            String f3 = df.format(date1.plusDays(laengeMens+zyklus*3));
-            String o1 = df.format(date2.plusDays(zyklus));
-            String o2 = df.format(date2.plusDays(zyklus*2));
-            String o3 = df.format(date2.plusDays(zyklus*3));
-            String l1 = df.format(date1.plusDays(zyklus/2+3));
-            String l2 = df.format(date1.plusDays(zyklus/2+3+zyklus));
-            String l3 = df.format(date1.plusDays(zyklus/2+3+zyklus*2));
-            binding.textviewPhase.setText(daysBetween + ". Tag: Ovulation");
-            binding.textviewTrainingsempfehlung.setText("Auf Körper hören");
-            binding.textview1.setText("Nächste Menstruationsphase:\n" + m1 + ", " + m2 + ", " + m3);
-            binding.textview3.setText("Nächste Follikelphase:\n" + f1 + ", " + f2 + ", " + f3);
-            binding.textview4.setText("Nächste Ovulationsphase:\n" + o1 + ", " + o2 + ", " + o3);
-            binding.textview2.setText("Nächste Lutealphase:\n" + l1 + ", " + l2 + ", " + l3);
-        } else if (daysBetween <= zyklus) {
-            String m1 = df.format(date1.plusDays(zyklus));
-            String m2 = df.format(date1.plusDays(zyklus * 2));
-            String m3 = df.format(date1.plusDays(zyklus * 3));
-            String f1 = df.format(date1.plusDays(laengeMens+zyklus));
-            String f2 = df.format(date1.plusDays(laengeMens+zyklus*2));
-            String f3 = df.format(date1.plusDays(laengeMens+zyklus*3));
-            String o1 = df.format(date1.plusDays(zyklus/2+zyklus));
-            String o2 = df.format(date1.plusDays(zyklus/2+zyklus*2));
-            String o3 = df.format(date1.plusDays(zyklus/2+zyklus*3));
-            String l1 = df.format(date1.plusDays(zyklus/2+3+zyklus));
-            String l2 = df.format(date1.plusDays(zyklus/2+3+zyklus*2));
-            String l3 = df.format(date1.plusDays(zyklus/2+3+zyklus*3));
-            binding.textviewPhase.setText(daysBetween + ". Tag: Lutealphase");
-            binding.textviewTrainingsempfehlung.setText("Trainingsintensität und -volumen reduzieren: leichteres Krafttraining, lockere Regenerationsläufe");
-            binding.textview1.setText("Nächste Menstruationsphase:\n" + m1 + ", " + m2 + ", " + m3);
-            binding.textview2.setText("Nächste Follikelphase:\n" + f1 + ", " + f2 + ", " + f3);
-            binding.textview3.setText("Nächste Ovulationsphase:\n" + o1 + ", " + o2 + ", " + o3);
-            binding.textview4.setText("Nächste Lutealphase:\n" + l1 + ", " + l2 + ", " + l3);
-        } else if (daysBetween > zyklus) {
+        if (daysBetween <= zyklus) {
+            Calendar m1Cal = Calendar.getInstance();
+            Calendar m2Cal = Calendar.getInstance();
+            Calendar m3Cal = Calendar.getInstance();
+            Calendar f1Cal = Calendar.getInstance();
+            Calendar f2Cal = Calendar.getInstance();
+            Calendar f3Cal = Calendar.getInstance();
+            Calendar o1Cal = Calendar.getInstance();
+            Calendar o2Cal = Calendar.getInstance();
+            Calendar o3Cal = Calendar.getInstance();
+            Calendar l1Cal = Calendar.getInstance();
+            Calendar l2Cal = Calendar.getInstance();
+            Calendar l3Cal = Calendar.getInstance();
+            Calendar c1 = Calendar.getInstance();
+            Calendar c2 = Calendar.getInstance();
+            Calendar c3 = Calendar.getInstance();
+            Calendar max = Calendar.getInstance();
+
+            Date m1Dat, m2Dat, m3Dat, f1Dat, f2Dat, f3Dat, o1Dat, o2Dat, o3Dat, l1Dat, l2Dat, l3Dat;
+            if (daysBetween <= laengeMens) {
+                binding.calenderviewPhasen.setMaximumDate(max);
+                m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
+                m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
+                m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
+                f1Dat = Date.from(date1.plusDays(laengeMens).atStartOfDay(zoneId).toInstant());
+                f2Dat = Date.from(date1.plusDays(laengeMens + zyklus).atStartOfDay(zoneId).toInstant());
+                f3Dat = Date.from(date1.plusDays(laengeMens + zyklus * 2).atStartOfDay(zoneId).toInstant());
+                o1Dat = Date.from(date1.plusDays(zyklus / 2).atStartOfDay(zoneId).toInstant());
+                o2Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus).atStartOfDay(zoneId).toInstant());
+                o3Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus * 2).atStartOfDay(zoneId).toInstant());
+                l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3).atStartOfDay(zoneId).toInstant());
+                l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
+                l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 2).atStartOfDay(zoneId).toInstant());
+
+                c1.setTime(m1Dat);
+                c2.setTime(m1Dat);
+                c3.setTime(m1Dat);
+                m1Cal.setTime(m1Dat);
+                m2Cal.setTime(m2Dat);
+                m3Cal.setTime(m3Dat);
+                f1Cal.setTime(f1Dat);
+                f2Cal.setTime(f2Dat);
+                f3Cal.setTime(f3Dat);
+                o1Cal.setTime(o1Dat);
+                o2Cal.setTime(o2Dat);
+                o3Cal.setTime(o3Dat);
+                l1Cal.setTime(l1Dat);
+                l2Cal.setTime(l2Dat);
+                l3Cal.setTime(l3Dat);
+
+                max.setTime(l3Dat);
+                max.add(Calendar.DATE, 12);
+
+                binding.textviewPhase.setText(daysBetween + ". Tag: Menstruationsphase");
+                binding.textviewTrainingsempfehlung.setText("Niedrigere Intensität (z.B. lockeres Ausdauertraining, Yoga, Stretching). Hartes Krafttraining kann schaden, weil schützendes Estradiol fehlt");
+            } else if (daysBetween <= 7 + laengeMens) {
+                m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
+                m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
+                m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
+                f1Dat = Date.from(date1.plusDays(laengeMens + zyklus).atStartOfDay(zoneId).toInstant());
+                f2Dat = Date.from(date1.plusDays(laengeMens + zyklus * 2).atStartOfDay(zoneId).toInstant());
+                f3Dat = Date.from(date1.plusDays(laengeMens + zyklus * 3).atStartOfDay(zoneId).toInstant());
+                o1Dat = Date.from(date1.plusDays(zyklus / 2).atStartOfDay(zoneId).toInstant());
+                o2Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus).atStartOfDay(zoneId).toInstant());
+                o3Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus * 2).atStartOfDay(zoneId).toInstant());
+                l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3).atStartOfDay(zoneId).toInstant());
+                l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
+                l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus + zyklus).atStartOfDay(zoneId).toInstant());
+
+                c1.setTime(m1Dat);
+                c2.setTime(m1Dat);
+                c3.setTime(m1Dat);
+                m1Cal.setTime(m1Dat);
+                m2Cal.setTime(m2Dat);
+                m3Cal.setTime(m3Dat);
+                f1Cal.setTime(f1Dat);
+                f2Cal.setTime(f2Dat);
+                f3Cal.setTime(f3Dat);
+                o1Cal.setTime(o1Dat);
+                o2Cal.setTime(o2Dat);
+                o3Cal.setTime(o3Dat);
+                l1Cal.setTime(l1Dat);
+                l2Cal.setTime(l2Dat);
+                l3Cal.setTime(l3Dat);
+
+                max.setTime(m3Dat);
+                max.add(Calendar.DATE, laengeMens);
+
+                binding.textviewPhase.setText(daysBetween + ". Tag: Follikelphase");
+                binding.textviewTrainingsempfehlung.setText("Perfekter Zeitpunkt für Krafttraining: Trainingseffekt besonders hoch, da Estradiol Muskulatur stärker auf Trainingsreize reagieren lässt.");
+            } else if (daysBetween <= 16) {
+                m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
+                m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
+                m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
+                f1Dat = Date.from(date1.plusDays(laengeMens + zyklus).atStartOfDay(zoneId).toInstant());
+                f2Dat = Date.from(date1.plusDays(laengeMens + zyklus * 2).atStartOfDay(zoneId).toInstant());
+                f3Dat = Date.from(date1.plusDays(laengeMens + zyklus * 3).atStartOfDay(zoneId).toInstant());
+                o1Dat = Date.from(date2.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
+                o2Dat = Date.from(date2.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
+                o3Dat = Date.from(date2.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
+                l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3).atStartOfDay(zoneId).toInstant());
+                l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
+                l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 2).atStartOfDay(zoneId).toInstant());
+
+                c1.setTime(m1Dat);
+                c2.setTime(m1Dat);
+                c3.setTime(m1Dat);
+                m1Cal.setTime(m1Dat);
+                m2Cal.setTime(m2Dat);
+                m3Cal.setTime(m3Dat);
+                f1Cal.setTime(f1Dat);
+                f2Cal.setTime(f2Dat);
+                f3Cal.setTime(f3Dat);
+                o1Cal.setTime(o1Dat);
+                o2Cal.setTime(o2Dat);
+                o3Cal.setTime(o3Dat);
+                l1Cal.setTime(l1Dat);
+                l2Cal.setTime(l2Dat);
+                l3Cal.setTime(l3Dat);
+
+                max.setTime(f3Dat);
+                max.add(Calendar.DATE, (zyklus / 2 - laengeMens));
+
+                binding.textviewPhase.setText(daysBetween + ". Tag: Ovulation");
+                binding.textviewTrainingsempfehlung.setText("Auf Körper hören");
+            } else if (daysBetween <= zyklus) {
+                m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
+                m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
+                m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
+                f1Dat = Date.from(date1.plusDays(laengeMens + zyklus).atStartOfDay(zoneId).toInstant());
+                f2Dat = Date.from(date1.plusDays(laengeMens + zyklus * 2).atStartOfDay(zoneId).toInstant());
+                f3Dat = Date.from(date1.plusDays(laengeMens + zyklus * 3).atStartOfDay(zoneId).toInstant());
+                o1Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus).atStartOfDay(zoneId).toInstant());
+                o2Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus * 2).atStartOfDay(zoneId).toInstant());
+                o3Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus * 3).atStartOfDay(zoneId).toInstant());
+                l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
+                l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 2).atStartOfDay(zoneId).toInstant());
+                l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 3).atStartOfDay(zoneId).toInstant());
+
+                c1.setTime(m1Dat);
+                c2.setTime(m1Dat);
+                c3.setTime(m1Dat);
+                m1Cal.setTime(m1Dat);
+                m2Cal.setTime(m2Dat);
+                m3Cal.setTime(m3Dat);
+                f1Cal.setTime(f1Dat);
+                f2Cal.setTime(f2Dat);
+                f3Cal.setTime(f3Dat);
+                o1Cal.setTime(o1Dat);
+                o2Cal.setTime(o2Dat);
+                o3Cal.setTime(o3Dat);
+                l1Cal.setTime(l1Dat);
+                l2Cal.setTime(l2Dat);
+                l3Cal.setTime(l3Dat);
+
+                max.setTime(l3Dat);
+                max.add(Calendar.DATE, zyklus / 2);
+
+                binding.textviewPhase.setText(daysBetween + ". Tag: Lutealphase");
+                binding.textviewTrainingsempfehlung.setText("Trainingsintensität und -volumen reduzieren: leichteres Krafttraining, lockere Regenerationsläufe");
+            }
+
+            binding.calenderviewPhasen.setMaximumDate(max);
+
+            List<EventDay> phasen = new ArrayList<>();
+
+            phasen.add(new EventDay(m1Cal, R.drawable.ic_mens));
+            phasen.add(new EventDay(m2Cal, R.drawable.ic_mens));
+            phasen.add(new EventDay(m3Cal, R.drawable.ic_mens));
+
+            phasen.add(new EventDay(f1Cal, R.drawable.ic_follikel));
+            phasen.add(new EventDay(f2Cal, R.drawable.ic_follikel));
+            phasen.add(new EventDay(f3Cal, R.drawable.ic_follikel));
+
+            phasen.add(new EventDay(o1Cal, R.drawable.ic_ovulation));
+            phasen.add(new EventDay(o2Cal, R.drawable.ic_ovulation));
+            phasen.add(new EventDay(o3Cal, R.drawable.ic_ovulation));
+
+            phasen.add(new EventDay(l1Cal, R.drawable.ic_luteal, Color.parseColor("#66d9ff")));
+            phasen.add(new EventDay(l2Cal, R.drawable.ic_luteal, Color.parseColor("#66d9ff")));
+            phasen.add(new EventDay(l3Cal, R.drawable.ic_luteal, Color.parseColor("#66d9ff")));
+
+            binding.calenderviewPhasen.setEvents(phasen);
+        } else {
             binding.textviewPhase.setText((daysBetween - zyklus) + " Tage zu spät");
-            binding.textviewTrainingsempfehlung.setText(" ");
-            binding.textview1.setText(" ");
-            binding.textview2.setText(" ");
-            binding.textview3.setText(" ");
-            binding.textview4.setText(" ");
+            binding.textviewTrainingsempfehlung.setText("Keine Vorhersage möglich");
         }
     }
 
