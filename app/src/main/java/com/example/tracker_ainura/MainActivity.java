@@ -60,7 +60,34 @@ public class MainActivity extends AppCompatActivity {
 
         ausrechnen(date1, laengeMens, laenge);
         setUpBtn();
+        setUpInfo();
 
+    }
+
+    private void setUpInfo() {
+        boolean clicked = false;
+        binding.cardviewInfo.setVisibility(View.INVISIBLE);
+        binding.btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                info(clicked);
+            }
+        });
+    }
+
+    private void info(boolean clicked) {
+        clicked = !clicked;
+        if (clicked){
+            binding.cardviewInfo.setVisibility(View.VISIBLE);
+        }else{
+            binding.cardviewInfo.setVisibility(View.INVISIBLE);
+        }
+        binding.cardviewInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.cardviewInfo.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     private void setUpBtn() {
