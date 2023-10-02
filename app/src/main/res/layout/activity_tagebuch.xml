@@ -13,6 +13,12 @@
             android:text="Neue Notiz"
             android:id="@+id/button_notiz_erstellen"
             android:layout_marginBottom="12dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kurzer Klick zum Bearbeiten, langer Klick zum Löschen"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_tagebuch"
             android:layout_height="match_parent"

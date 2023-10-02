@@ -94,7 +94,7 @@ public class NeuePeriodeActivity extends AppCompatActivity {
             RoomDB database_zyklen = RoomDB.getInstance(this);
             database_zyklen.zyklenDao().insert(zyklus);
 
-            durchschnittAusrechnen(date2, prefs);
+            durchschnittAusrechnen(daysBetween, prefs);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("Periode", true);
             editor.commit();
@@ -107,17 +107,19 @@ public class NeuePeriodeActivity extends AppCompatActivity {
         return null;
     }
 
-    private void durchschnittAusrechnen(LocalDate date2, SharedPreferences prefs) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String letztePeriode = prefs.getString("letztePeriode", "");
-        int laenge = Integer.parseInt(prefs.getString("laenge", ""));
-        LocalDate date1 = parse(letztePeriode, formatter);
-        long differenz = ChronoUnit.DAYS.between(date1, date2);
-        int differenzKonvertiert = Long.valueOf(differenz).intValue();
-        int durchschnitt = (differenzKonvertiert+laenge)/2;
-        String fertigeLaenge = String.valueOf(durchschnitt);
+    private void durchschnittAusrechnen(long daysBetween, SharedPreferences prefs) {
         SharedPreferences.Editor editor = prefs.edit();
+        int laengeSum = prefs.getInt("laengeSum", 0);
+        int zyklenAnz = prefs.getInt("zyklenInt", 0);
+
+        int differenzKonvertiert = Long.valueOf(daysBetween).intValue();
+        laengeSum = laengeSum + differenzKonvertiert;
+        zyklenAnz = zyklenAnz + 1;
+        int durchschnitt = laengeSum/zyklenAnz;
+        String fertigeLaenge = String.valueOf(durchschnitt);
         editor.putString("laenge", fertigeLaenge);
+        editor.putInt("laengeSum", laengeSum);
+        editor.putInt("zyklenAnz", zyklenAnz);
         editor.commit();
     }
 

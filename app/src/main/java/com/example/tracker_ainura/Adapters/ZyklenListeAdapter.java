@@ -11,7 +11,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tracker_ainura.Models.Zyklen;
+import com.example.tracker_ainura.NotizenClickListener;
 import com.example.tracker_ainura.R;
+import com.example.tracker_ainura.ZyklenClickListener;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class ZyklenListeAdapter extends RecyclerView.Adapter<ZyklenViewHolder> {
 
     Context context;
     List<Zyklen> liste;
+    ZyklenClickListener listener;
 
     public ZyklenListeAdapter(Context context, List<Zyklen> liste){
         this.context = context;
@@ -34,6 +37,14 @@ public class ZyklenListeAdapter extends RecyclerView.Adapter<ZyklenViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ZyklenViewHolder holder, int position) {
         holder.textview_beschreibung.setText(liste.get(position).getStart()+" - "+liste.get(position).getEnde()+" ("+liste.get(position).getLaenge()+" Tage), Periode: "+liste.get(position).getLaengePeriode()+" Tage");
+
+        holder.cardview_zyklencontainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                listener.onLongClick(liste.get(holder.getAdapterPosition()), holder.cardview_zyklencontainer);
+                return true;
+            }
+        });
     }
 
     @Override

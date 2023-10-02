@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void info(boolean clicked) {
         clicked = !clicked;
-        if (clicked){
+        if (clicked) {
             binding.cardviewInfo.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             binding.cardviewInfo.setVisibility(View.INVISIBLE);
         }
         binding.cardviewInfo.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpBtn() {
         SharedPreferences prefs = getSharedPreferences("SharedPrefs", MODE_PRIVATE);
         boolean periode = prefs.getBoolean("Periode", false);
-        if(periode){
+        if (periode) {
             binding.buttonErsterTag.setText("Ende der Periode?");
             binding.buttonErsterTag.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(endePeriodeIntent);
                 }
             });
-        }else{
+        } else {
             binding.buttonErsterTag.setText("1. Tag der Periode?");
             binding.buttonErsterTag.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.item_einstellungen:
                 Intent einstellungenIntent = new Intent(MainActivity.this, EinstellungenActivity.class);
                 startActivity(einstellungenIntent);
@@ -344,5 +344,4 @@ public class MainActivity extends AppCompatActivity {
             binding.textviewTrainingsempfehlung.setText("Keine Vorhersage möglich");
         }
     }
-
 }

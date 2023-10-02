@@ -2,11 +2,14 @@ package com.example.tracker_ainura;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,9 +17,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.example.tracker_ainura.Adapters.ZyklenListeAdapter;
 import com.example.tracker_ainura.Database.RoomDB;
+import com.example.tracker_ainura.Models.Notizen;
 import com.example.tracker_ainura.Models.Zyklen;
 import com.example.tracker_ainura.databinding.ActivityZusammenfassungBinding;
 
@@ -28,6 +34,9 @@ public class ZusammenfassungActivity extends AppCompatActivity {
     private ActivityZusammenfassungBinding binding;
     ZyklenListeAdapter zyklenListeAdapter;
     List<Zyklen> zyklen = new ArrayList<>();
+    RoomDB database;
+    AlertDialog.Builder alertDialogBuilder;
+    Zyklen selectedZyklus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

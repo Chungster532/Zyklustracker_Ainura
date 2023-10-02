@@ -74,6 +74,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean("FirstTimeRun", false);
+                    editor.putInt("laengeSum", 0);
+                    editor.putInt("zyklenAnz", 0);
                     editor.apply();
                     Intent startenIntent = new Intent(WelcomeActivity.this, MainActivity.class);
                     startActivity(startenIntent);
