@@ -12,6 +12,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -31,6 +33,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Home-Activity:
+ *
+ * rechnet aus und präsentiert nächste Phasen mit Trainingsempfehlung.
+ * von hier aus wird ein Zyklus gestartet/beendet.
+ * */
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -67,11 +75,17 @@ public class MainActivity extends AppCompatActivity {
         createWorkRequest();
     }
 
+    /**
+     * Methode, welche Benachrichtigung auslöst (bzw. sollte, funktioniert nicht, obwohl keine Fehler gemeldet werden. Problem liegt wahrscheinlich in den Berechtigungen.
+     **/
     private void createWorkRequest() {
         PeriodicWorkRequest dailyWorkRequest = new PeriodicWorkRequest.Builder(ReminderWorker.class, 1, TimeUnit.MINUTES).build();
         WorkManager.getInstance().enqueue(dailyWorkRequest);
     }
 
+    /**
+     * Methode, die Legende zu Phasen-Icons zeigt, wenn Info-Icon gedrückt wird. (ruft info(boolean) auf)
+     **/
     private void setUpInfo() {
         boolean clicked = false;
         binding.cardviewInfo.setVisibility(View.INVISIBLE);
@@ -83,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Methode, die kontrolliert, die sich um Sichtbarkeit der Info kümmert. Musste von setUpInfo() getrennt werden, da innere Klasse finale Variable will, aber boolean clicked nicht final sein darf.
+     **/
     private void info(boolean clicked) {
         clicked = !clicked;
         if (clicked) {
@@ -98,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Methode, die sich um Zyklus/Blutung-Btn kümmert.
+     * Blutung-Zustand wird aus SharedPreferences geholt -> bestimmt Text und Intent des Btns (führt entweder zu NeuePeriodeActivity oder EndePeriodeActivity)*/
     private void setUpBtn() {
         SharedPreferences prefs = getSharedPreferences("SharedPrefs", MODE_PRIVATE);
         boolean periode = prefs.getBoolean("Periode", false);
@@ -154,7 +174,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void ausrechnen(LocalDate date1, int laengeMens, int zyklus) {//sehr hässliche und lange Methode, aber ich habe keinen Weg gefunden, um sie zu kürzen (die Event-Liste scheint ihre Eigenheiten zu haben)
+    /**
+     * Methode, die Anfangstage der Phasen der nächsten 3 Zyklen ausrechnet (Rechnungen werden weiter unten erklärt).
+     * Ruft setUpIcons() auf, die dann CalendarView gestaltet
+     *
+     * @param date1 der erste Tag des aktuellen Zyklus
+     * @param laengeMens Länge der Menstruationsphase in Tagen
+     * @param zyklus Länge des gesamten Zyklus in Tagen*/
+    private void ausrechnen(LocalDate date1, int laengeMens, int zyklus) {//sehr hässliche und lange Methode, aber ich habe keinen Weg gefunden, um sie zu kürzen (Calendars und Dates vertragen sich nicht mit Schleifen, was eine sehr elegante Lösung hätte sein können)
 
         Calendar min = Calendar.getInstance();
         min.add(Calendar.DATE, -1);
@@ -165,21 +192,24 @@ public class MainActivity extends AppCompatActivity {
         ZoneId zoneId = ZoneId.systemDefault();
 
         if (daysBetween <= zyklus) {
-            List<EventDay> phasen = new ArrayList<>();
-            Calendar m1Cal = Calendar.getInstance();
-            Calendar m2Cal = Calendar.getInstance();
-            Calendar m3Cal = Calendar.getInstance();
-            Calendar f1Cal = Calendar.getInstance();
+            List<EventDay> phasen = new ArrayList<>(); // EventDay besteht aus einem Calendar
+            Calendar m0Cal = Calendar.getInstance(); // Mensphase des aktuellen Zyklus (wird nur während Mensphase angezeigt)
+            Calendar m1Cal = Calendar.getInstance(); // Mensphase des nächsten Zyklus'
+            Calendar m2Cal = Calendar.getInstance(); // Mensphase des übernächsten Zyklus'
+            Calendar m3Cal = Calendar.getInstance(); // etc.
+            Calendar f1Cal = Calendar.getInstance(); // Follikelphase des 1. Zyklus'
             Calendar f2Cal = Calendar.getInstance();
             Calendar f3Cal = Calendar.getInstance();
-            Calendar o1Cal = Calendar.getInstance();
+            Calendar o1Cal = Calendar.getInstance(); // Ovulationsphase #1
             Calendar o2Cal = Calendar.getInstance();
             Calendar o3Cal = Calendar.getInstance();
-            Calendar l1Cal = Calendar.getInstance();
+            Calendar l1Cal = Calendar.getInstance(); // Lutealphase #1
             Calendar l2Cal = Calendar.getInstance();
             Calendar l3Cal = Calendar.getInstance();
-            Calendar max = Calendar.getInstance();
+            Calendar max = Calendar.getInstance(); // wird das späteste anzeigbare Datum im CalendarView festlegen
 
+            // die Calendars werden durch die Dates eingestellt
+            Date m0Dat = new Date();
             Date m1Dat = new Date();
             Date m2Dat = new Date();
             Date m3Dat = new Date();
@@ -193,26 +223,30 @@ public class MainActivity extends AppCompatActivity {
             Date l2Dat = new Date();
             Date l3Dat = new Date();
             if (daysBetween <= laengeMens) {
+                binding.textviewPhase.setText(daysBetween + ". Tag: Menstruationsphase");
+                binding.textviewTrainingsempfehlung.setText("Niedrigere Intensität (z.B. lockeres Ausdauertraining, Yoga, Stretching). Hartes Krafttraining kann schaden, weil schützendes Estradiol fehlt");
                 binding.calenderviewPhasen.setMaximumDate(max);
-                m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
-                m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
+                binding.linearlayoutAktuell.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gradient_mens));
+                m0Dat = Date.from(date1.plusDays(0).atStartOfDay(zoneId).toInstant());
+                m0Cal.setTime(m0Dat);
+                phasen.add(new EventDay(m0Cal, R.drawable.ic_mens));
+                m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant()); // Mensphase = Anfang letzte Periode +
+                m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant()); // Zyklen #2 und #3 werden ausgerechnet, indem die Länge des Zyklus passend multipliziert und zum 1. Datum addiert wird
                 m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
-                f1Dat = Date.from(date1.plusDays(laengeMens).atStartOfDay(zoneId).toInstant());
+                f1Dat = Date.from(date1.plusDays(laengeMens).atStartOfDay(zoneId).toInstant()); // Follikelphase folgt auf Mensphase -> Länge der Mensphase zum Beginn des letzten Zyklus addieren
                 f2Dat = Date.from(date1.plusDays(laengeMens + zyklus).atStartOfDay(zoneId).toInstant());
                 f3Dat = Date.from(date1.plusDays(laengeMens + zyklus * 2).atStartOfDay(zoneId).toInstant());
-                o1Dat = Date.from(date1.plusDays(zyklus / 2).atStartOfDay(zoneId).toInstant());
+                o1Dat = Date.from(date1.plusDays(zyklus / 2).atStartOfDay(zoneId).toInstant()); // Ovulation ist meistens 12-14 Tage vor Ende oder in der Mitte des Zyklus'(Berechnung trifft nur für 24-28 Zyklen zu)
                 o2Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus).atStartOfDay(zoneId).toInstant());
                 o3Dat = Date.from(date1.plusDays(zyklus / 2 + zyklus * 2).atStartOfDay(zoneId).toInstant());
-                l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3).atStartOfDay(zoneId).toInstant());
+                l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3).atStartOfDay(zoneId).toInstant()); // Der sportliche Effekt der Ovulationsphase hält 3 Tage an, danach folgt Lutealphase
                 l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
                 l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 2).atStartOfDay(zoneId).toInstant());
 
                 max.setTime(l3Dat);
                 max.add(Calendar.DATE, 12);
-
-                binding.textviewPhase.setText(daysBetween + ". Tag: Menstruationsphase");
-                binding.textviewTrainingsempfehlung.setText("Niedrigere Intensität (z.B. lockeres Ausdauertraining, Yoga, Stretching). Hartes Krafttraining kann schaden, weil schützendes Estradiol fehlt");
             } else if (daysBetween <= 7 + laengeMens) {
+                binding.linearlayoutAktuell.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gradient_follikel));
                 m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
                 m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
                 m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
@@ -232,15 +266,16 @@ public class MainActivity extends AppCompatActivity {
                 binding.textviewPhase.setText(daysBetween + ". Tag: Follikelphase");
                 binding.textviewTrainingsempfehlung.setText("Perfekter Zeitpunkt für Krafttraining: Trainingseffekt besonders hoch, da Estradiol Muskulatur stärker auf Trainingsreize reagieren lässt.");
             } else if (daysBetween <= 16) {
+                binding.linearlayoutAktuell.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gradient_ovulation));
                 m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
                 m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
                 m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
                 f1Dat = Date.from(date1.plusDays(laengeMens + zyklus).atStartOfDay(zoneId).toInstant());
                 f2Dat = Date.from(date1.plusDays(laengeMens + zyklus * 2).atStartOfDay(zoneId).toInstant());
                 f3Dat = Date.from(date1.plusDays(laengeMens + zyklus * 3).atStartOfDay(zoneId).toInstant());
-                o1Dat = Date.from(date2.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
-                o2Dat = Date.from(date2.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
-                o3Dat = Date.from(date2.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
+                o1Dat = Date.from(date1.plusDays(zyklus/2).atStartOfDay(zoneId).toInstant());
+                o2Dat = Date.from(date1.plusDays(zyklus/2+zyklus).atStartOfDay(zoneId).toInstant());
+                o3Dat = Date.from(date1.plusDays(zyklus/2+zyklus*2).atStartOfDay(zoneId).toInstant());
                 l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3).atStartOfDay(zoneId).toInstant());
                 l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
                 l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 2).atStartOfDay(zoneId).toInstant());
@@ -251,6 +286,7 @@ public class MainActivity extends AppCompatActivity {
                 binding.textviewPhase.setText(daysBetween + ". Tag: Ovulation");
                 binding.textviewTrainingsempfehlung.setText("Auf Körper hören");
             } else if (daysBetween <= zyklus) {
+                binding.linearlayoutAktuell.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gradient_luteal));
                 m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
                 m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
                 m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
@@ -287,8 +323,6 @@ public class MainActivity extends AppCompatActivity {
             l3Cal.setTime(l3Dat);
 
             setUpIcons(phasen, m1Cal, m2Cal, m3Cal, f1Cal, f2Cal, f3Cal, o1Cal, o2Cal, o3Cal, l1Cal, l2Cal, l3Cal, laengeMens);
-
-            binding.calenderviewPhasen.setEvents(phasen);
         } else {
             binding.textviewPhase.setText((daysBetween - zyklus) + " Tage zu spät");
             binding.textviewTrainingsempfehlung.setText("Keine Vorhersage möglich");
@@ -311,5 +345,7 @@ public class MainActivity extends AppCompatActivity {
         phasen.add(new EventDay(l1Cal, R.drawable.ic_luteal));
         phasen.add(new EventDay(l2Cal, R.drawable.ic_luteal));
         phasen.add(new EventDay(l3Cal, R.drawable.ic_luteal));
+
+        binding.calenderviewPhasen.setEvents(phasen);
     }
 }

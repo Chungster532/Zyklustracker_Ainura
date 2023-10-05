@@ -11,4 +11,16 @@
         <item name="android:textSize">14sp</item>
         <item name="colorAccent">@color/purple_500</item>
     </style>
+    <style name="CardViewMens." parent="CardView">
+        <item name="android:foreground">@drawable/gradient_mens</item>
+    </style>
+    <style name="CardViewFollikel." parent="CardView">
+        <item name="android:foreground">@drawable/gradient_follikel</item>
+    </style>
+    <style name="CardViewOvulation." parent="CardView">
+        <item name="android:foreground">@drawable/gradient_ovulation</item>
+    </style>
+    <style name="CardViewLuteal." parent="CardView">
+        <item name="android:foreground">@drawable/gradient_luteal</item>
+    </style>
 </resources>
