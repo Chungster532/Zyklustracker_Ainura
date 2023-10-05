@@ -76,6 +76,8 @@ public class EndePeriodeActivity extends AppCompatActivity {
             Toast.makeText(this, "Periode kann nicht länger als 8 Tage dauern", Toast.LENGTH_SHORT).show();
         }else if(date2.isAfter(heute)){
             Toast.makeText(this, "Es darf kein zukünftiges Datum ausgewählt werden", Toast.LENGTH_SHORT).show();
+        }else if(differenz<3){
+            Toast.makeText(this, "Periode kann nicht kürzer als 3 Tage dauern", Toast.LENGTH_SHORT).show();
         }
         else{
             String fertigeLaenge = String.valueOf(differenz);

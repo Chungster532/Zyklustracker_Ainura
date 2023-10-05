@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TagebuchActivity"
     android:orientation="vertical"
-    android:padding="24dp">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Neue Notiz"
-            android:id="@+id/button_notiz_erstellen"
-            android:layout_marginBottom="12dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kurzer Klick zum Bearbeiten, langer Klick zum Löschen"
-            android:layout_marginBottom="12dp"
-            android:layout_gravity="center"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_tagebuch"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
-</LinearLayout>
+    android:padding="24dp"
+    tools:context=".TagebuchActivity">
+
+    <SearchView
+        android:id="@+id/searchview_notizen"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="12dp"
+        android:background="@color/teal_200" />
+    <TextView
+        android:id="@+id/textview_infoUsage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchview_notizen"
+        android:text="Klicken zum Bearbeiten, gedrückt halten um zu löschen"
+        android:textAlignment="center" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_tagebuch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textview_infoUsage" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_notiz_erstellen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="Notiz erstellen"
+        android:src="@drawable/baseline_add_24"
+        style="@style/Theme.AppCompat"/>
+</RelativeLayout>

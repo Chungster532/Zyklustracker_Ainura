@@ -79,6 +79,8 @@ public class NeuePeriodeActivity extends AppCompatActivity {
             Toast.makeText(this, "Zyklus kann nicht kürzer als 15 Tage sein", Toast.LENGTH_SHORT).show();
         }else if(date2.isAfter(heute)){
             Toast.makeText(this, "Es darf kein zukünftiges Datum ausgewählt werden", Toast.LENGTH_SHORT).show();
+        }else if(date2.isBefore(date1)){
+            Toast.makeText(this, "Neue Periode darf nicht vor vorheriger liegen", Toast.LENGTH_SHORT).show();
         }
         else{
             LocalDate periodePrefs = date2;

@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.example.tracker_ainura.databinding.ActivityTagebuchBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private ActivityTagebuchBinding binding;
@@ -43,6 +45,38 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
 
         updateRecycler(notizen);
 
+        setUpNotizBtn();
+
+        setUpSearchBar();
+    }
+
+    private void setUpSearchBar() {
+        binding.searchviewNotizen.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                filter(s);
+                return true;
+            }
+        });
+    }
+
+    private void filter(String newText){
+        List<Notizen> filteredList = new ArrayList<>();
+        for (Notizen singleNote : notizen){
+            String wholeNote = singleNote.getBlutung()+singleNote.getDatum()+singleNote.getSonstiges()+singleNote.getStimmung()+singleNote.getTraining();
+            if (wholeNote.toLowerCase().contains(newText.toLowerCase(Locale.ROOT))){
+                filteredList.add(singleNote);
+            };
+        }
+        notizenListeAdapter.filterList(filteredList);
+    }
+
+    private void setUpNotizBtn() {
         binding.buttonNotizErstellen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

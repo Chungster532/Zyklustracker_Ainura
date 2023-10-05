@@ -62,6 +62,11 @@ public class NotizenListeAdapter extends RecyclerView.Adapter<NotizenViewHolder>
     public int getItemCount() {
         return liste.size();
     }
+
+    public void filterList(List<Notizen> filteredList){
+        liste = filteredList;
+        notifyDataSetChanged();
+    }
 }
 
 class NotizenViewHolder extends RecyclerView.ViewHolder{

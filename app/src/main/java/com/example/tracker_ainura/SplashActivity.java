@@ -2,8 +2,11 @@ package com.example.tracker_ainura;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import java.util.Timer;
@@ -30,13 +33,26 @@ public class SplashActivity extends AppCompatActivity {
                             Intent welcomeIntent = new Intent(SplashActivity.this, WelcomeActivity.class);
                             startActivity(welcomeIntent);
                         }else{
+                            createNotificationChannel();
                             Intent mainActivityIntent = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(mainActivityIntent);
                         }
                         finish();
                     }
 
-                }, 1500);
+                }, 666);
 
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "ReminderChannel";
+            CharSequence channelName = "Mens-Reminder Channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

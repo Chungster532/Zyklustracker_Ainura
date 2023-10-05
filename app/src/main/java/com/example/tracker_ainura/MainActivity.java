@@ -1,19 +1,19 @@
 package com.example.tracker_ainura;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.applandeo.materialcalendarview.EventDay;
 import com.example.tracker_ainura.Adapters.ZyklenListeAdapter;
@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     RoomDB database_zyklen;
     ZyklenListeAdapter zyklenListeAdapter;
     List<Zyklen> zyklen = new ArrayList<>();
+    private AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
         setUpBtn();
         setUpInfo();
 
+        createWorkRequest();
+    }
+
+    private void createWorkRequest() {
+        PeriodicWorkRequest dailyWorkRequest = new PeriodicWorkRequest.Builder(ReminderWorker.class, 1, TimeUnit.MINUTES).build();
+        WorkManager.getInstance().enqueue(dailyWorkRequest);
     }
 
     private void setUpInfo() {
@@ -146,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void ausrechnen(LocalDate date1, int laengeMens, int zyklus) {
+    private void ausrechnen(LocalDate date1, int laengeMens, int zyklus) {//sehr hässliche und lange Methode, aber ich habe keinen Weg gefunden, um sie zu kürzen (die Event-Liste scheint ihre Eigenheiten zu haben)
 
         Calendar min = Calendar.getInstance();
         min.add(Calendar.DATE, -1);
@@ -157,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         ZoneId zoneId = ZoneId.systemDefault();
 
         if (daysBetween <= zyklus) {
+            List<EventDay> phasen = new ArrayList<>();
             Calendar m1Cal = Calendar.getInstance();
             Calendar m2Cal = Calendar.getInstance();
             Calendar m3Cal = Calendar.getInstance();
@@ -169,12 +178,20 @@ public class MainActivity extends AppCompatActivity {
             Calendar l1Cal = Calendar.getInstance();
             Calendar l2Cal = Calendar.getInstance();
             Calendar l3Cal = Calendar.getInstance();
-            Calendar c1 = Calendar.getInstance();
-            Calendar c2 = Calendar.getInstance();
-            Calendar c3 = Calendar.getInstance();
             Calendar max = Calendar.getInstance();
 
-            Date m1Dat, m2Dat, m3Dat, f1Dat, f2Dat, f3Dat, o1Dat, o2Dat, o3Dat, l1Dat, l2Dat, l3Dat;
+            Date m1Dat = new Date();
+            Date m2Dat = new Date();
+            Date m3Dat = new Date();
+            Date f1Dat = new Date();
+            Date f2Dat = new Date();
+            Date f3Dat = new Date();
+            Date o1Dat = new Date();
+            Date o2Dat = new Date();
+            Date o3Dat = new Date();
+            Date l1Dat = new Date();
+            Date l2Dat = new Date();
+            Date l3Dat = new Date();
             if (daysBetween <= laengeMens) {
                 binding.calenderviewPhasen.setMaximumDate(max);
                 m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
@@ -189,22 +206,6 @@ public class MainActivity extends AppCompatActivity {
                 l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3).atStartOfDay(zoneId).toInstant());
                 l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
                 l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 2).atStartOfDay(zoneId).toInstant());
-
-                c1.setTime(m1Dat);
-                c2.setTime(m1Dat);
-                c3.setTime(m1Dat);
-                m1Cal.setTime(m1Dat);
-                m2Cal.setTime(m2Dat);
-                m3Cal.setTime(m3Dat);
-                f1Cal.setTime(f1Dat);
-                f2Cal.setTime(f2Dat);
-                f3Cal.setTime(f3Dat);
-                o1Cal.setTime(o1Dat);
-                o2Cal.setTime(o2Dat);
-                o3Cal.setTime(o3Dat);
-                l1Cal.setTime(l1Dat);
-                l2Cal.setTime(l2Dat);
-                l3Cal.setTime(l3Dat);
 
                 max.setTime(l3Dat);
                 max.add(Calendar.DATE, 12);
@@ -225,22 +226,6 @@ public class MainActivity extends AppCompatActivity {
                 l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
                 l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus + zyklus).atStartOfDay(zoneId).toInstant());
 
-                c1.setTime(m1Dat);
-                c2.setTime(m1Dat);
-                c3.setTime(m1Dat);
-                m1Cal.setTime(m1Dat);
-                m2Cal.setTime(m2Dat);
-                m3Cal.setTime(m3Dat);
-                f1Cal.setTime(f1Dat);
-                f2Cal.setTime(f2Dat);
-                f3Cal.setTime(f3Dat);
-                o1Cal.setTime(o1Dat);
-                o2Cal.setTime(o2Dat);
-                o3Cal.setTime(o3Dat);
-                l1Cal.setTime(l1Dat);
-                l2Cal.setTime(l2Dat);
-                l3Cal.setTime(l3Dat);
-
                 max.setTime(m3Dat);
                 max.add(Calendar.DATE, laengeMens);
 
@@ -259,22 +244,6 @@ public class MainActivity extends AppCompatActivity {
                 l1Dat = Date.from(date1.plusDays(zyklus / 2 + 3).atStartOfDay(zoneId).toInstant());
                 l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus).atStartOfDay(zoneId).toInstant());
                 l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 2).atStartOfDay(zoneId).toInstant());
-
-                c1.setTime(m1Dat);
-                c2.setTime(m1Dat);
-                c3.setTime(m1Dat);
-                m1Cal.setTime(m1Dat);
-                m2Cal.setTime(m2Dat);
-                m3Cal.setTime(m3Dat);
-                f1Cal.setTime(f1Dat);
-                f2Cal.setTime(f2Dat);
-                f3Cal.setTime(f3Dat);
-                o1Cal.setTime(o1Dat);
-                o2Cal.setTime(o2Dat);
-                o3Cal.setTime(o3Dat);
-                l1Cal.setTime(l1Dat);
-                l2Cal.setTime(l2Dat);
-                l3Cal.setTime(l3Dat);
 
                 max.setTime(f3Dat);
                 max.add(Calendar.DATE, (zyklus / 2 - laengeMens));
@@ -295,22 +264,6 @@ public class MainActivity extends AppCompatActivity {
                 l2Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 2).atStartOfDay(zoneId).toInstant());
                 l3Dat = Date.from(date1.plusDays(zyklus / 2 + 3 + zyklus * 3).atStartOfDay(zoneId).toInstant());
 
-                c1.setTime(m1Dat);
-                c2.setTime(m1Dat);
-                c3.setTime(m1Dat);
-                m1Cal.setTime(m1Dat);
-                m2Cal.setTime(m2Dat);
-                m3Cal.setTime(m3Dat);
-                f1Cal.setTime(f1Dat);
-                f2Cal.setTime(f2Dat);
-                f3Cal.setTime(f3Dat);
-                o1Cal.setTime(o1Dat);
-                o2Cal.setTime(o2Dat);
-                o3Cal.setTime(o3Dat);
-                l1Cal.setTime(l1Dat);
-                l2Cal.setTime(l2Dat);
-                l3Cal.setTime(l3Dat);
-
                 max.setTime(l3Dat);
                 max.add(Calendar.DATE, zyklus / 2);
 
@@ -320,28 +273,43 @@ public class MainActivity extends AppCompatActivity {
 
             binding.calenderviewPhasen.setMaximumDate(max);
 
-            List<EventDay> phasen = new ArrayList<>();
+            m1Cal.setTime(m1Dat);
+            m2Cal.setTime(m2Dat);
+            m3Cal.setTime(m3Dat);
+            f1Cal.setTime(f1Dat);
+            f2Cal.setTime(f2Dat);
+            f3Cal.setTime(f3Dat);
+            o1Cal.setTime(o1Dat);
+            o2Cal.setTime(o2Dat);
+            o3Cal.setTime(o3Dat);
+            l1Cal.setTime(l1Dat);
+            l2Cal.setTime(l2Dat);
+            l3Cal.setTime(l3Dat);
 
-            phasen.add(new EventDay(m1Cal, R.drawable.ic_mens));
-            phasen.add(new EventDay(m2Cal, R.drawable.ic_mens));
-            phasen.add(new EventDay(m3Cal, R.drawable.ic_mens));
-
-            phasen.add(new EventDay(f1Cal, R.drawable.ic_follikel));
-            phasen.add(new EventDay(f2Cal, R.drawable.ic_follikel));
-            phasen.add(new EventDay(f3Cal, R.drawable.ic_follikel));
-
-            phasen.add(new EventDay(o1Cal, R.drawable.ic_ovulation));
-            phasen.add(new EventDay(o2Cal, R.drawable.ic_ovulation));
-            phasen.add(new EventDay(o3Cal, R.drawable.ic_ovulation));
-
-            phasen.add(new EventDay(l1Cal, R.drawable.ic_luteal, Color.parseColor("#66d9ff")));
-            phasen.add(new EventDay(l2Cal, R.drawable.ic_luteal, Color.parseColor("#66d9ff")));
-            phasen.add(new EventDay(l3Cal, R.drawable.ic_luteal, Color.parseColor("#66d9ff")));
+            setUpIcons(phasen, m1Cal, m2Cal, m3Cal, f1Cal, f2Cal, f3Cal, o1Cal, o2Cal, o3Cal, l1Cal, l2Cal, l3Cal, laengeMens);
 
             binding.calenderviewPhasen.setEvents(phasen);
         } else {
             binding.textviewPhase.setText((daysBetween - zyklus) + " Tage zu spät");
             binding.textviewTrainingsempfehlung.setText("Keine Vorhersage möglich");
         }
+    }
+
+    private void setUpIcons(List<EventDay> phasen, Calendar m1Cal, Calendar m2Cal, Calendar m3Cal, Calendar f1Cal, Calendar f2Cal, Calendar f3Cal, Calendar o1Cal, Calendar o2Cal, Calendar o3Cal, Calendar l1Cal, Calendar l2Cal, Calendar l3Cal, int laengeMens) {
+        phasen.add(new EventDay(m1Cal, R.drawable.ic_mens));
+        phasen.add(new EventDay(m2Cal, R.drawable.ic_mens));
+        phasen.add(new EventDay(m3Cal, R.drawable.ic_mens));
+
+        phasen.add(new EventDay(f1Cal, R.drawable.ic_follikel));
+        phasen.add(new EventDay(f2Cal, R.drawable.ic_follikel));
+        phasen.add(new EventDay(f3Cal, R.drawable.ic_follikel));
+
+        phasen.add(new EventDay(o1Cal, R.drawable.ic_ovulation));
+        phasen.add(new EventDay(o2Cal, R.drawable.ic_ovulation));
+        phasen.add(new EventDay(o3Cal, R.drawable.ic_ovulation));
+
+        phasen.add(new EventDay(l1Cal, R.drawable.ic_luteal));
+        phasen.add(new EventDay(l2Cal, R.drawable.ic_luteal));
+        phasen.add(new EventDay(l3Cal, R.drawable.ic_luteal));
     }
 }
