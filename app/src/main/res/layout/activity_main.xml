@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 tools:text="Tag: Phase"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:textColor="@color/white"/>
 
             <TextView
@@ -38,9 +38,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Trainingsempfehlung"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/textview_mehrIntent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="*Klick hier, um mehr zu erfahren*"
+                android:layout_marginBottom="12dp"
                 android:textColor="@color/white"
                 android:textAlignment="center"/>
         </LinearLayout>
@@ -58,16 +66,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="12dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="4dp"
                 android:text="Der 1. Tag einer Phase ist mit dem jeweiligen Icon markiert. Es werden die nächsten 3 Zyklen angezeigt. Weitere Infos gibt es auf der Wissen-Seite"
                 android:textAlignment="center" />
 
@@ -136,14 +144,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ovulationsphase" />
+                    android:text="Lutealphase" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Click here to make me disappear" />
+                android:layout_marginTop="4dp"
+                android:text="*Klick hier, und ich bin weg*" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

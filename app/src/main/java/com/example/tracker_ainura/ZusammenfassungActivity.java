@@ -52,7 +52,7 @@ public class ZusammenfassungActivity extends AppCompatActivity {
         zyklenListeAdapter = new ZyklenListeAdapter(ZusammenfassungActivity.this, zyklen);
         zyklenListeAdapter.notifyDataSetChanged();
 
-        setMensLaenge();
+        setTextviews();
 
         updateRecycler(zyklen, zyklenListeAdapter);
 
@@ -89,10 +89,12 @@ public class ZusammenfassungActivity extends AppCompatActivity {
         }
     }
 
-    private void setMensLaenge() {
+    private void setTextviews() {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
         String laenge = prefs.getString("laenge", "");
+        String laengeMens = prefs.getString("laengeMens", "");
         binding.textviewLaengeDurchschnitt.setText("Durchschnittliche Länge Zyklus: "+laenge);
+        binding.textviewLaengePeriode.setText("Aktuelle Länge Periode: "+laengeMens);
     }
 
     private void updateRecycler(List<Zyklen> zyklen, ZyklenListeAdapter zyklenListeAdapter) {

@@ -24,8 +24,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_tagebuch"
-        android:paddingBottom="12dp"
+        android:paddingBottom="4dp"
         android:paddingTop="12dp"/>
+
+    <TextView
+        android:id="@+id/textview_laengePeriode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aktuelle Länge Periode: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_laengeDurchschnitt"
+        android:paddingBottom="12dp" />
 
     <TextView
         android:id="@+id/textview_letzteZyklen"
@@ -34,7 +44,7 @@
         android:text="Letzte Zyklen: "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_laengeDurchschnitt"
+        app:layout_constraintTop_toBottomOf="@id/textview_laengePeriode"
         android:textSize="24sp"
         android:paddingBottom="4dp"/>
 

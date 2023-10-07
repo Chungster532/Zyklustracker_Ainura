@@ -71,8 +71,20 @@ public class MainActivity extends AppCompatActivity {
         ausrechnen(date1, laengeMens, laenge);
         setUpBtn();
         setUpInfo();
+        setUpAktuell();
 
         createWorkRequest();
+    }
+
+    private void setUpAktuell() {
+        binding.textviewMehrIntent.setText("*Klick hier, um mehr zu erfahren*");
+        binding.cardviewAktuell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent wissenIntent = new Intent(MainActivity.this, WissenActivity.class);
+                startActivity(wissenIntent);
+            }
+        });
     }
 
     /**
@@ -224,9 +236,9 @@ public class MainActivity extends AppCompatActivity {
             Date l3Dat = new Date();
             if (daysBetween <= laengeMens) {
                 binding.textviewPhase.setText(daysBetween + ". Tag: Menstruationsphase");
-                binding.textviewTrainingsempfehlung.setText("Niedrigere Intensität (z.B. lockeres Ausdauertraining, Yoga, Stretching). Hartes Krafttraining kann schaden, weil schützendes Estradiol fehlt");
-                binding.calenderviewPhasen.setMaximumDate(max);
+                binding.textviewTrainingsempfehlung.setText("Niedrigere Intensität (z.B. lockeres Ausdauertraining, Yoga, Stretching). Hartes Krafttraining kann schaden, weil Östrogenspiegel niedrig ist");
                 binding.linearlayoutAktuell.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gradient_mens));
+
                 m0Dat = Date.from(date1.plusDays(0).atStartOfDay(zoneId).toInstant());
                 m0Cal.setTime(m0Dat);
                 phasen.add(new EventDay(m0Cal, R.drawable.ic_mens));
@@ -247,6 +259,9 @@ public class MainActivity extends AppCompatActivity {
                 max.add(Calendar.DATE, 12);
             } else if (daysBetween <= 7 + laengeMens) {
                 binding.linearlayoutAktuell.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gradient_follikel));
+                binding.textviewPhase.setText(daysBetween + ". Tag: Follikelphase");
+                binding.textviewTrainingsempfehlung.setText("Perfekter Zeitpunkt für Krafttraining: Trainingseffekt besonders hoch, da Östrogene Muskulatur stärker auf Trainingsreize reagieren lassen und Erholung fördern. Achtung: erhöhte Dehnbarkeit Sehnen und somit Verletzungsanfälligkeit");
+
                 m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
                 m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
                 m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
@@ -262,11 +277,11 @@ public class MainActivity extends AppCompatActivity {
 
                 max.setTime(m3Dat);
                 max.add(Calendar.DATE, laengeMens);
-
-                binding.textviewPhase.setText(daysBetween + ". Tag: Follikelphase");
-                binding.textviewTrainingsempfehlung.setText("Perfekter Zeitpunkt für Krafttraining: Trainingseffekt besonders hoch, da Estradiol Muskulatur stärker auf Trainingsreize reagieren lässt.");
             } else if (daysBetween <= 16) {
+                binding.textviewPhase.setText(daysBetween + ". Tag: Ovulation");
+                binding.textviewTrainingsempfehlung.setText("Auf Körper hören (viele fühlen sich nun am leistungsstärksten, manche hingegen erschöpft). Progesteron führt zu höherer Körpertemperatur und Puls, daher evtl. Training je nach Temperatur anpassen.");
                 binding.linearlayoutAktuell.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gradient_ovulation));
+
                 m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
                 m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
                 m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
@@ -282,11 +297,11 @@ public class MainActivity extends AppCompatActivity {
 
                 max.setTime(f3Dat);
                 max.add(Calendar.DATE, (zyklus / 2 - laengeMens));
-
-                binding.textviewPhase.setText(daysBetween + ". Tag: Ovulation");
-                binding.textviewTrainingsempfehlung.setText("Auf Körper hören");
             } else if (daysBetween <= zyklus) {
+                binding.textviewPhase.setText(daysBetween + ". Tag: Lutealphase");
+                binding.textviewTrainingsempfehlung.setText("Trainingsintensität und -volumen reduzieren: leichteres Krafttraining, lockere Regenerationsläufe. Auf erhaltendes, nicht unbedingt aufbauendes Training setzen.");
                 binding.linearlayoutAktuell.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.gradient_luteal));
+
                 m1Dat = Date.from(date1.plusDays(zyklus).atStartOfDay(zoneId).toInstant());
                 m2Dat = Date.from(date1.plusDays(zyklus * 2).atStartOfDay(zoneId).toInstant());
                 m3Dat = Date.from(date1.plusDays(zyklus * 3).atStartOfDay(zoneId).toInstant());
@@ -302,9 +317,6 @@ public class MainActivity extends AppCompatActivity {
 
                 max.setTime(l3Dat);
                 max.add(Calendar.DATE, zyklus / 2);
-
-                binding.textviewPhase.setText(daysBetween + ". Tag: Lutealphase");
-                binding.textviewTrainingsempfehlung.setText("Trainingsintensität und -volumen reduzieren: leichteres Krafttraining, lockere Regenerationsläufe");
             }
 
             binding.calenderviewPhasen.setMaximumDate(max);
