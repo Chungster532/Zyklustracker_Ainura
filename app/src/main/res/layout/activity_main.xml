@@ -19,19 +19,40 @@
 
         <LinearLayout
             android:id="@+id/linearlayout_aktuell"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textview_phase"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                tools:text="Tag: Phase"
-                android:layout_marginTop="12dp"
-                android:textColor="@color/white"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/textview_phase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    tools:text="Tag: Phase"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/btn_infoWissen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_info_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/textview_trainingsempfehlung"
@@ -65,94 +86,105 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
+            android:padding="4dp">
+            <ImageView
+                android:id="@+id/btn_infoWeg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="Der 1. Tag einer Phase ist mit dem jeweiligen Icon markiert. Es werden die nächsten 3 Zyklen angezeigt. Weitere Infos gibt es auf der Wissen-Seite"
-                android:textAlignment="center" />
-
+                android:src="@drawable/baseline_not_interested_24"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:rotation="90"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="12sp"
-                    android:layout_height="12sp"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/ic_mens" />
+                android:layout_margin="12dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Menstruationsphase" />
-            </LinearLayout>
+                    android:layout_marginBottom="4dp"
+                    android:text="Der 1. Tag einer Phase ist mit dem jeweiligen Icon markiert. Es werden die nächsten 3 Zyklen angezeigt."
+                    android:textAlignment="center" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="12sp"
-                    android:layout_height="12sp"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/ic_follikel" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Follikelphase" />
-            </LinearLayout>
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="12sp"
+                        android:layout_height="12sp"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/ic_mens" />
 
-                <ImageView
-                    android:layout_width="12sp"
-                    android:layout_height="12sp"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/ic_ovulation" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Menstruationsphase" />
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ovulationsphase" />
-            </LinearLayout>
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="12sp"
+                        android:layout_height="12sp"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/ic_follikel" />
 
-                <ImageView
-                    android:layout_width="12sp"
-                    android:layout_height="12sp"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/ic_luteal" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Follikelphase" />
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lutealphase" />
-            </LinearLayout>
+                    android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="*Klick hier, und ich bin weg*" />
-        </LinearLayout>
+                    <ImageView
+                        android:layout_width="12sp"
+                        android:layout_height="12sp"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/ic_ovulation" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ovulationsphase" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="12sp"
+                        android:layout_height="12sp"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/ic_luteal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lutealphase" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -167,7 +199,7 @@
         app:layout_constraintTop_toBottomOf="@id/cardview_aktuell">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -179,7 +211,7 @@
                 android:textSize="24sp" />
 
             <ImageView
-                android:id="@+id/btn_info"
+                android:id="@+id/btn_infoMehr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_info_24" />

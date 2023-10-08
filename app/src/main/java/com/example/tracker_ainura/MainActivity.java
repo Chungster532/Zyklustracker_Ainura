@@ -77,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpAktuell() {
-        binding.textviewMehrIntent.setText("*Klick hier, um mehr zu erfahren*");
-        binding.cardviewAktuell.setOnClickListener(new View.OnClickListener() {
+        binding.btnInfoWissen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent wissenIntent = new Intent(MainActivity.this, WissenActivity.class);
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpInfo() {
         boolean clicked = false;
         binding.cardviewInfo.setVisibility(View.INVISIBLE);
-        binding.btnInfo.setOnClickListener(new View.OnClickListener() {
+        binding.btnInfoMehr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 info(clicked);
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             binding.cardviewInfo.setVisibility(View.INVISIBLE);
         }
-        binding.cardviewInfo.setOnClickListener(new View.OnClickListener() {
+        binding.btnInfoWeg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 binding.cardviewInfo.setVisibility(View.INVISIBLE);
