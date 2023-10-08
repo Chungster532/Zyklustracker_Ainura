@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     ZyklenListeAdapter zyklenListeAdapter;
     List<Zyklen> zyklen = new ArrayList<>();
     private AlarmManager alarmManager;
+    List<EventDay> phasen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
      * @param date1 der erste Tag des aktuellen Zyklus
      * @param laengeMens Länge der Menstruationsphase in Tagen
      * @param zyklus Länge des gesamten Zyklus in Tagen*/
-    private void ausrechnen(LocalDate date1, int laengeMens, int zyklus) {//sehr hässliche und lange Methode, aber ich habe keinen Weg gefunden, um sie zu kürzen (Calendars und Dates vertragen sich nicht mit Schleifen, was eine sehr elegante Lösung hätte sein können)
+    public void ausrechnen(LocalDate date1, int laengeMens, int zyklus) {//sehr hässliche und lange Methode, aber ich habe keinen Weg gefunden, um sie zu kürzen (Calendars und Dates vertragen sich nicht mit Schleifen, was eine sehr elegante Lösung hätte sein können)
 
         Calendar min = Calendar.getInstance();
         min.add(Calendar.DATE, -1);
@@ -202,22 +203,23 @@ public class MainActivity extends AppCompatActivity {
         long daysBetween = ChronoUnit.DAYS.between(date1, date2.plusDays(1));
         ZoneId zoneId = ZoneId.systemDefault();
 
+        Calendar m0Cal = Calendar.getInstance(); // Mensphase des aktuellen Zyklus (wird nur während Mensphase angezeigt)
+        Calendar m1Cal = Calendar.getInstance(); // Mensphase des nächsten Zyklus'
+        Calendar m2Cal = Calendar.getInstance(); // Mensphase des übernächsten Zyklus'
+        Calendar m3Cal = Calendar.getInstance(); // etc.
+        Calendar f1Cal = Calendar.getInstance(); // Follikelphase des 1. Zyklus'
+        Calendar f2Cal = Calendar.getInstance();
+        Calendar f3Cal = Calendar.getInstance();
+        Calendar o1Cal = Calendar.getInstance(); // Ovulationsphase #1
+        Calendar o2Cal = Calendar.getInstance();
+        Calendar o3Cal = Calendar.getInstance();
+        Calendar l1Cal = Calendar.getInstance(); // Lutealphase #1
+        Calendar l2Cal = Calendar.getInstance();
+        Calendar l3Cal = Calendar.getInstance();
+        Calendar max = Calendar.getInstance(); // wird das späteste anzeigbare Datum im CalendarView festlegen
+
         if (daysBetween <= zyklus) {
             List<EventDay> phasen = new ArrayList<>(); // EventDay besteht aus einem Calendar
-            Calendar m0Cal = Calendar.getInstance(); // Mensphase des aktuellen Zyklus (wird nur während Mensphase angezeigt)
-            Calendar m1Cal = Calendar.getInstance(); // Mensphase des nächsten Zyklus'
-            Calendar m2Cal = Calendar.getInstance(); // Mensphase des übernächsten Zyklus'
-            Calendar m3Cal = Calendar.getInstance(); // etc.
-            Calendar f1Cal = Calendar.getInstance(); // Follikelphase des 1. Zyklus'
-            Calendar f2Cal = Calendar.getInstance();
-            Calendar f3Cal = Calendar.getInstance();
-            Calendar o1Cal = Calendar.getInstance(); // Ovulationsphase #1
-            Calendar o2Cal = Calendar.getInstance();
-            Calendar o3Cal = Calendar.getInstance();
-            Calendar l1Cal = Calendar.getInstance(); // Lutealphase #1
-            Calendar l2Cal = Calendar.getInstance();
-            Calendar l3Cal = Calendar.getInstance();
-            Calendar max = Calendar.getInstance(); // wird das späteste anzeigbare Datum im CalendarView festlegen
 
             // die Calendars werden durch die Dates eingestellt
             Date m0Dat = new Date();
