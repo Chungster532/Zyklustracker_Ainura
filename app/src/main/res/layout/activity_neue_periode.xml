@@ -26,7 +26,7 @@
                 android:id="@+id/textview_ersterTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wähle den ersten Tag deiner Periode aus:" />
+                android:text="@string/w_hle_den_ersten_tag_deiner_periode_aus" />
 
             <DatePicker
                 android:id="@+id/datepicker_neuePeriode"
@@ -43,7 +43,7 @@
         android:id="@+id/btn_speichern"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Speichern"
+        android:text="@string/speichern"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

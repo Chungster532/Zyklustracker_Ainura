@@ -20,6 +20,11 @@ import com.example.tracker_ainura.databinding.ActivityWissenBinding;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Wissens-Activity:
+ *
+ * stellt Informationen als CardViews in einem RecyclerView dar
+ * */
 public class WissenActivity extends AppCompatActivity {
 
     private ActivityWissenBinding binding;
@@ -64,6 +69,9 @@ public class WissenActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Methode, die Layoutmanager und Liste dem RecyclerView gibt
+     * */
     private void updateRecyclerview() {
         binding.recyclerviewWissen.setHasFixedSize(true);
         binding.recyclerviewWissen.setLayoutManager(new LinearLayoutManager(this));
@@ -71,9 +79,12 @@ public class WissenActivity extends AppCompatActivity {
         binding.recyclerviewWissen.setAdapter(wissenThemaAdapter);
     }
 
+    /**
+     * Methode, die Liste mit den Themen für RecyclerView macht
+     * */
     private void initialisiereListe() {
         wissenThemaListe = new ArrayList<>();
-        wissenThemaListe.add(new WissenThema("Zyklusbasiertes Training", "Beim zyklusbasierten Training geht es darum, die für die jeweiligen Phasen charakteristische Hormonkonzentrationen auszunutzen. Wichtig zu beachten ist jedoch, dass der Menstruationszyklus von Frau zu Frau stark variieren kann und ein Trainingsplan immer individuell erarbeitet werden muss."));
+        wissenThemaListe.add(new WissenThema("Zyklusbasiertes Training", "Beim zyklusbasierten Training geht es darum, die für die jeweiligen Phasen charakteristische Hormonkonzentrationen auszunutzen. Wichtig zu beachten ist jedoch, dass der Menstruationszyklus von Frau zu Frau stark variieren kann und ein Trainingsplan immer individuell erarbeitet werden muss. Zudem geht es beim zyklusbasierten Training nicht nur um die Trainingsoptimierung. Den eigenen Zyklus und die dadurch entstehenden Phänomene als solche zu verstehen kann entlastend wirken."));
         wissenThemaListe.add(new WissenThema("Tipps für Tagebuch", "Um zu verstehen, wann dein Körper wie auf Trainingsreize reagiert, kannst du folgende Informationen dokumentieren:\n-Menstruationsblutung (Beginn, Dauer, Stärke)\n-Stimmung\n-Trainingseinheit und Gefühl während Training\n-Schmerzen, Krankheit, Verletzungen\n-Schlafqualität\n-Leistungsorientierte Sportlerinnen: Basaltemperatur\nAuf dieser Basis kann überlegt werden, wie das Training angepasst werden kann."));
         wissenThemaListe.add(new WissenThema("1. Phase: Menstruationsphase", "Dauer: 3-7 Tage\n" + "Vorgänge: Abstossung Gebärmutterschleimhaut verursacht Blutung\nHormone: Tiefster Östrogen- und Progesteronspiegel im ganzen Zyklus\nFolgen: Regelschmerzen, Erschöpfung, Kraftlosigkeit\nTrainingsempfehlung: Niedrigere Intensität (z.B. lockeres Ausdauertraining, Yoga, Stretching). Hartes Krafttraining kann schaden, weil Östrogenspiegel niedrig ist"));
         wissenThemaListe.add(new WissenThema("2. Phase: Follikelphase", "Dauer: 7-10 Tage\nVorgänge: Vorbereitung auf nächsten Eisprung\nHormone: Stetiger Anstieg des Östrogen- und Estradiolspiegels, Progesteronspiegel immer noch tief\nFolgen: Steigender Östrogenspiegel erhöht Energielevel\nTrainingsempfehlung: Perfekter Zeitpunkt für Krafttraining: Trainingseffekt besonders hoch, da Estradiol und Östrogen Muskulatur stärker auf Trainingsreize reagieren lässt und Erholung fördert. Gleichzeitig ist aber auch Vorsichtig geboten, da Östrogene Dehnbarkeit der Sehnen und somit Verletzungsanfälligkeit erhöhen"));

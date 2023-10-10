@@ -20,6 +20,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * EndePeriode-Activity:
+ *
+ * Hier wird die Periode beendet (Periode-Btn auf MainActivity führt hierhin)
+ * */
 public class EndePeriodeActivity extends AppCompatActivity {
     private ActivityEndePeriodeBinding binding;
 
@@ -33,6 +38,9 @@ public class EndePeriodeActivity extends AppCompatActivity {
         setUpSpeichernBtn();
     }
 
+    /**
+     * Methode, die Clicklistener für Btn aufsetzt und zu speichern-Methode leitet
+     * */
     private void setUpSpeichernBtn() {
         binding.btnSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,27 +51,17 @@ public class EndePeriodeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Methode, die eingegebenen Wert holt, kontrolliert und speichert (String laengeMens und Boolean Periode zu SharedPreferences)
+     * */
     private void endePeriodeSpeichern() {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
         int tag = binding.datepickerNeuePeriode.getDayOfMonth();
-        String monatStrFertig;
-        String tagStrFertig;
         String jahr = Integer.toString(binding.datepickerNeuePeriode.getYear());
         int monat = binding.datepickerNeuePeriode.getMonth();
-        monat += 1;
-        if(tag<10){
-            String tagStr = Integer.toString(tag);
-            tagStrFertig = "0"+tagStr;
-        }else{
-            tagStrFertig = Integer.toString(tag);
-        }
-        if(monat<10){
-            String monatStr = Integer.toString(monat);
-            monatStrFertig = "0"+monatStr;
-        }else{
-            monatStrFertig = Integer.toString(monat);
-        }
-        String endePeriode = tagStrFertig+"-"+monatStrFertig+"-"+jahr;
+
+        DateRetriever dr = new DateRetriever();
+        String endePeriode = dr.convertDateFromDatePicker(tag, jahr, monat);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String anfangPeriode = prefs.getString("letztePeriode", "");

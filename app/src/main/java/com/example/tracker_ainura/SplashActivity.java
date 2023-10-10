@@ -12,10 +12,13 @@ import android.os.Bundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Splash-Screen
+ *
+ * kontrolliert ob App schon konfiguriert wurde (-> Boolean aus SharedPreferences).
+ * erstellt Notification-Kanal
+ * */
 public class SplashActivity extends AppCompatActivity {
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +27,16 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("SharedPrefs", MODE_PRIVATE);
         boolean firstTimeRun = prefs.getBoolean("FirstTimeRun", true);
 
+        timerAndControl(firstTimeRun);
+
+    }
+
+    /**
+     * Methode, die firstTimeRun kontrolliert -> je nach dem zu Welcome- oder MainActivity schickt.
+     * Ruft Methode für Notification-Kanal auf
+     * */
+    private void timerAndControl(boolean firstTimeRun) {
+        createNotificationChannel();
         new Timer().schedule(
                 new TimerTask(){
 
@@ -33,7 +46,6 @@ public class SplashActivity extends AppCompatActivity {
                             Intent welcomeIntent = new Intent(SplashActivity.this, WelcomeActivity.class);
                             startActivity(welcomeIntent);
                         }else{
-                            createNotificationChannel();
                             Intent mainActivityIntent = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(mainActivityIntent);
                         }
@@ -41,7 +53,6 @@ public class SplashActivity extends AppCompatActivity {
                     }
 
                 }, 666);
-
     }
 
     private void createNotificationChannel() {

@@ -11,7 +11,7 @@
         android:id="@+id/btn_laengePeriodeChange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Länge Periode ändern"
+        android:text="@string/l_nge_periode_ndern"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +20,7 @@
         android:id="@+id/btn_laengeZyklusChange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Länge Zyklus ändern"
+        android:text="@string/l_nge_zyklus_ndern"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_laengePeriodeChange" />

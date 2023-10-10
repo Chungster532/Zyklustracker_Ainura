@@ -16,6 +16,9 @@ import com.example.tracker_ainura.R;
 
 import java.util.List;
 
+/**
+ * Adapter in TagebuchActivity
+ * */
 public class NotizenListeAdapter extends RecyclerView.Adapter<NotizenViewHolder>{
 
     Context context;

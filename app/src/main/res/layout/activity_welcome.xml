@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:hint="Durchschnittliche Länge Menstruationsblutung">
+                android:hint="Durchschnittliche Länge Periode">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_längeMens"

@@ -15,6 +15,9 @@ import com.example.tracker_ainura.R;
 
 import java.util.List;
 
+/**
+ * Adapter für Infos der Wissens-Activity
+ * */
 public class WissenThemaAdapter extends RecyclerView.Adapter<WissenThemaViewHolder> {
 
     List<WissenThema> liste;

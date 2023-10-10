@@ -45,6 +45,7 @@ public class ZusammenfassungActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        //erstmaliges Aufsetzen der DB
         RoomDB database_zyklen = RoomDB.getInstance(this);
         zyklen = database_zyklen.zyklenDao().getAll();
         zyklen.clear();
@@ -89,6 +90,9 @@ public class ZusammenfassungActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Methode, die Werte für TextViews aus SharedPreferences holt und einsetzt
+     * */
     private void setTextviews() {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
         String laenge = prefs.getString("laenge", "");

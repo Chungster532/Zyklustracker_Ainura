@@ -15,6 +15,9 @@ import com.example.tracker_ainura.R;
 
 import java.util.List;
 
+/**
+ * Adapter der Zyklen in ZusammenfassungsActivity
+ * */
 public class ZyklenListeAdapter extends RecyclerView.Adapter<ZyklenViewHolder> {
 
     Context context;

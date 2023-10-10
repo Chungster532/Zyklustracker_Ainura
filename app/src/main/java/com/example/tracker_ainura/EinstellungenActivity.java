@@ -22,6 +22,11 @@ import com.example.tracker_ainura.databinding.ActivityMainBinding;
 
 import java.net.Inet4Address;
 
+/**
+ * Einstellungen-Activity:
+ *
+ * Hier kann die Perioden- und Zykluslänge geändert werden
+ * */
 public class EinstellungenActivity extends AppCompatActivity {
 
     private ActivityEinstellungenBinding binding;
@@ -39,6 +44,13 @@ public class EinstellungenActivity extends AppCompatActivity {
         String laenge = prefs.getString("laenge", "");
         String laengeMens = prefs.getString("laengeMens", "");
 
+        setUpBtns(laenge, laengeMens);
+    }
+
+    /**
+     * Methode, die den beiden Btns Clicklistener gibt (welche dann zu jeweiligen Methoden weiterführen)
+     * */
+    private void setUpBtns(String laenge, String laengeMens) {
         binding.btnLaengePeriodeChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,6 +66,9 @@ public class EinstellungenActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Methode, die neue Periodenlänge entgegennimmt (-> Dialog). Kontrolliert und speichert Wert
+     * */
     private void laengePeriodeDialog(String laenge) {
         AlertDialog.Builder laengeDialog = new AlertDialog.Builder(EinstellungenActivity.this);
         laengeDialog.setTitle("Neue Periodenlänge eingeben: ");
@@ -91,6 +106,9 @@ public class EinstellungenActivity extends AppCompatActivity {
         laengeDialog.show();
     }
 
+    /**
+     * Methode, die Menu zeigt
+     * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -98,6 +116,9 @@ public class EinstellungenActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Methode, die ausgewähltes Menu registriert und zu jeweiliger Activity weiterleitet
+     * */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -119,6 +140,9 @@ public class EinstellungenActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Methode, die neue Zykluslänge entgegennimmt (-> Dialog). Kontrolliert und speichert Wert
+     * */
     private void laengeZyklusDialog(String laengeMens) {
         AlertDialog.Builder laengeDialog = new AlertDialog.Builder(EinstellungenActivity.this);
         laengeDialog.setTitle("Neue Zykluslänge eingeben: ");

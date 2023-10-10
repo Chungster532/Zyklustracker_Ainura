@@ -26,6 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Tagebuch-Activity:
+ *
+ * zeigt alle bisherigen Notizen (mit RecyclerView NotizenListeAdapter) auf.
+ * Suchfunktion in Notizen.
+ * Leitet zu NotizActivity weiter.
+ * */
 public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private ActivityTagebuchBinding binding;
     NotizenListeAdapter notizenListeAdapter;
@@ -50,6 +57,9 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
         setUpSearchBar();
     }
 
+    /**
+     * Methode, die eingegebenen String entgegennimmt und an Filter-Funktion weiterleitet
+     * */
     private void setUpSearchBar() {
         binding.searchviewNotizen.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -76,6 +86,9 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
         notizenListeAdapter.filterList(filteredList);
     }
 
+    /**
+     * Methode, die Clicklistener für Btn zum Erstellen der Notiz macht
+     * */
     private void setUpNotizBtn() {
         binding.buttonNotizErstellen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,11 +127,14 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
         }
     }
 
+    /**
+     * Methode, die kontrolliert, ob Notiz, welche gerade in NotizActivity erstellt wurde, neue oder bearbeitete ist.
+     * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==101){
+        if (requestCode==101){ // neue Notiz
             if (resultCode== Activity.RESULT_OK){
                 Notizen neueNotiz = (Notizen) data.getSerializableExtra("notiz");
                 database.notizenDao().insert(neueNotiz);
@@ -126,7 +142,7 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
                 notizen.addAll(database.notizenDao().getAll());
                 notizenListeAdapter.notifyDataSetChanged();
             }
-        } else if (requestCode==102){
+        } else if (requestCode==102){ // alte Notiz
             if(resultCode==Activity.RESULT_OK){
                 Notizen neue_notiz = (Notizen) data.getSerializableExtra("notiz");
                 database.notizenDao().update(neue_notiz.getId(), neue_notiz.getDatum(), neue_notiz.getTagZyklus(), neue_notiz.getTraining(), neue_notiz.getBlutung(), neue_notiz.getStimmung(), neue_notiz.getSonstiges());
@@ -137,6 +153,9 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
         }
     }
 
+    /**
+     * Methode, die RecyclerView updatet
+     * */
     private void updateRecycler(List<Notizen> notizen) {
         binding.recyclerviewTagebuch.setHasFixedSize(true);
         binding.recyclerviewTagebuch.setLayoutManager(new LinearLayoutManager(this));
@@ -144,6 +163,9 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
         binding.recyclerviewTagebuch.setAdapter(notizenListeAdapter);
     }
 
+    /**
+     * Methode, die das Anklicken von Notizen regelt (kurzer Klick: bearbeiten, langer Klick: löschen)
+     * */
     private final NotizenClickListener notizenClickListener = new NotizenClickListener() {
         @Override
         public void onClick(Notizen notiz) {
@@ -162,6 +184,9 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
         }
     };
 
+    /**
+     * Methode, die Popup zum Löschen der Notiz anzeigt
+     * */
     private void showPopup(CardView cardview) {
         PopupMenu popupMenu = new PopupMenu(this, cardview);
         popupMenu.setOnMenuItemClickListener(this);

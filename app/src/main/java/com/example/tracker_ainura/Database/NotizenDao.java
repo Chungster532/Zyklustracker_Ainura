@@ -10,6 +10,9 @@ import com.example.tracker_ainura.Models.Notizen;
 
 import java.util.List;
 
+/**
+ * Interface für Notizen-Entity
+ * */
 @Dao
 public interface NotizenDao {
 

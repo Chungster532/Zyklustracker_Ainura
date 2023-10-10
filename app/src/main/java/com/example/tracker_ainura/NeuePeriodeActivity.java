@@ -21,6 +21,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * NeuePeriode-Activity:
+ *
+ * Hier wird ein neuer Zyklus angefangen (Periode-Btn auf MainActivity führt hierhin)
+ * */
 public class NeuePeriodeActivity extends AppCompatActivity {
 
     private ActivityNeuePeriodeBinding binding;
@@ -32,40 +37,33 @@ public class NeuePeriodeActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        setUpBtn();
+    }
+
+    /**
+     * Methode, die Clicklistener zu Speicher-Btn gibt -> löst Methoden aus, die Eingabe vorbereiten + speichern
+     * */
+    private void setUpBtn() {
         binding.btnSpeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 neuePeriodeVorbereiten();
-                zusammenfassungZeigen();
                 finish();
             }
         });
     }
 
-    private void zusammenfassungZeigen() {
-    }
-
+    /**
+     * Methode, die eingegebenen Wert holt, kontrolliert und speichert (-> siehe Kommentare weiter unten)
+     * */
     private View.OnClickListener neuePeriodeVorbereiten() {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
         int tag = binding.datepickerNeuePeriode.getDayOfMonth();
-        String monatStrFertig;
-        String tagStrFertig;
         String jahr = Integer.toString(binding.datepickerNeuePeriode.getYear());
         int monat = binding.datepickerNeuePeriode.getMonth();
-        monat += 1;
-        if(tag<10){
-            String tagStr = Integer.toString(tag);
-            tagStrFertig = "0"+tagStr;
-        }else{
-            tagStrFertig = Integer.toString(tag);
-        }
-        if(monat<10){
-            String monatStr = Integer.toString(monat);
-            monatStrFertig = "0"+monatStr;
-        }else{
-            monatStrFertig = Integer.toString(monat);
-        }
-        String aktuellePeriode = tagStrFertig+"-"+monatStrFertig+"-"+jahr;
+
+        DateRetriever dr = new DateRetriever();
+        String aktuellePeriode = dr.convertDateFromDatePicker(tag, jahr, monat);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
@@ -84,10 +82,11 @@ public class NeuePeriodeActivity extends AppCompatActivity {
         }
         else{
             LocalDate periodePrefs = date2;
+
+            // Speicherung in Room DB
             String periodePrefsFertig = formatter.format(periodePrefs);
             Zyklen zyklus = new Zyklen();
             zyklus.setLaenge(Long.toString(daysBetween));
-            neuePeriodeInPrefsSpeichern(periodePrefsFertig, prefs);
             date2 = date2.minusDays(1);
             zyklus.setStart(formatter.format(date1));
             zyklus.setEnde(formatter.format(date2));
@@ -99,6 +98,7 @@ public class NeuePeriodeActivity extends AppCompatActivity {
             durchschnittAusrechnen(daysBetween, prefs);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("Periode", true);
+            editor.putString("letztePeriode", periodePrefsFertig);
             editor.commit();
 
             Intent returnIntent = new Intent(NeuePeriodeActivity.this, ZusammenfassungActivity.class);
@@ -109,6 +109,9 @@ public class NeuePeriodeActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Methode, die Zyklusdurchschnitt ausrechnet (Länge und Nummer aller Zyklen insgesamt wird in SharedPreferences gespeichert)
+     * */
     private void durchschnittAusrechnen(long daysBetween, SharedPreferences prefs) {
         SharedPreferences.Editor editor = prefs.edit();
         int laengeSum = prefs.getInt("laengeSum", 0);
@@ -122,12 +125,6 @@ public class NeuePeriodeActivity extends AppCompatActivity {
         editor.putString("laenge", fertigeLaenge);
         editor.putInt("laengeSum", laengeSum);
         editor.putInt("zyklenAnz", zyklenAnz);
-        editor.commit();
-    }
-
-    public void neuePeriodeInPrefsSpeichern(String letztePeriode, SharedPreferences prefs) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("letztePeriode", letztePeriode);
         editor.commit();
     }
 }

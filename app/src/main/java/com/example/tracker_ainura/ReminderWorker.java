@@ -18,6 +18,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Klasse, die alle 24h kontrolliert, ob morgen Mensphase beginnt. Falls ja -> Benachrichtigung
+ * */
 public class ReminderWorker extends Worker {
     public ReminderWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -35,7 +38,7 @@ public class ReminderWorker extends Worker {
         LocalDate date2 = LocalDate.now();
         long daysBetween = ChronoUnit.DAYS.between(date1, date2.plusDays(1));
         int tag = (int) daysBetween;
-        if (tag==(laenge-2)){
+        if (tag==(laenge-1)){
             sendNotfication(tag);
         }
         return Result.success();

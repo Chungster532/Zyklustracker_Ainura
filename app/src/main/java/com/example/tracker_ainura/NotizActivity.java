@@ -1,5 +1,7 @@
 package com.example.tracker_ainura;
 
+import static java.time.LocalDate.parse;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +21,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 
+/**
+ * Notiz-Activity:
+ *
+ * Verfassung Notiz
+ * */
 public class NotizActivity extends AppCompatActivity {
 
     private ActivityNotizBinding binding;
@@ -33,6 +40,8 @@ public class NotizActivity extends AppCompatActivity {
         setContentView(view);
 
         notiz = new Notizen();
+
+        // Falls ältere Notiz bearbeitet wird (führt von TagebuchActivity hierhin)
         try{
             notiz = (Notizen) getIntent().getSerializableExtra("alte_notiz");
             String datum = notiz.getDatum();
@@ -50,6 +59,13 @@ public class NotizActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        setUpSpeichernBtn();
+    }
+
+    /**
+     * Methode, die dem Speichern-Btn Clicklistener gibt
+     * */
+    private void setUpSpeichernBtn() {
         binding.btnNotizspeichern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +74,9 @@ public class NotizActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Methode, die Inhalt der Notiz holt, kontrolliert (ob leer) und in Room DB speichert/aktualisiert
+     * */
     private void notizSpeichern() {
         String datum = getDate();
         String training = binding.editTextTraining.getText().toString();
@@ -87,28 +106,24 @@ public class NotizActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Methode, die Datum holt und kontrolliert -> gibt String datum zurück
+     * */
     private String getDate() {
         int tag = binding.datepickerDatum.getDayOfMonth();
         String jahr = Integer.toString(binding.datepickerDatum.getYear());
         int monat = binding.datepickerDatum.getMonth();
-        String monatStrFertig;
-        String tagStrFertig;
-        monat += 1;
-        if(tag<10){
-            String tagStr = Integer.toString(tag);
-            tagStrFertig = "0"+tagStr;
-        }else{
-            tagStrFertig = Integer.toString(tag);
-        }
-        if(monat<10){
-            String monatStr = Integer.toString(monat);
-            monatStrFertig = "0"+monatStr;
-        }else{
-            monatStrFertig = Integer.toString(monat);
-        }
-        return tagStrFertig+"-"+monatStrFertig+"-"+jahr;
+
+        DateRetriever dr = new DateRetriever();
+        String endePeriode = dr.convertDateFromDatePicker(tag, jahr, monat);
+        return endePeriode;
     }
 
+    /**
+     * Methode, die ausrechnet, welcher Tag im Zyklus gerade ist -> gibt dies als String zurück
+     *
+     * @param datum das Datum, für welches ausgerechnet werden muss
+     * */
     private String tagZyklusAusrechnen(String datum) {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
         String letztePeriode = prefs.getString("letztePeriode", "");

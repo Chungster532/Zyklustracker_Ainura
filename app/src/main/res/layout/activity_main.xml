@@ -56,7 +56,8 @@
                         android:src="@drawable/baseline_info_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="@string/info_icon"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -118,7 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
-                        android:text="Der 1. Tag einer Phase ist mit dem jeweiligen Icon markiert. Es werden die nächsten 3 Zyklen angezeigt."
+                        android:text="@string/legendeCalendar"
                         android:textAlignment="center" />
 
                     <LinearLayout
@@ -130,12 +131,13 @@
                             android:layout_width="12sp"
                             android:layout_height="12sp"
                             android:layout_marginRight="4dp"
-                            android:src="@drawable/ic_mens" />
+                            android:src="@drawable/ic_mens"
+                            android:contentDescription="@string/menstruationsphase" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Menstruationsphase" />
+                            android:text="@string/menstruationsphase" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -147,12 +149,13 @@
                             android:layout_width="12sp"
                             android:layout_height="12sp"
                             android:layout_marginRight="4dp"
-                            android:src="@drawable/ic_follikel" />
+                            android:src="@drawable/ic_follikel"
+                            android:contentDescription="@string/follikelphase"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Follikelphase" />
+                            android:text="@string/follikelphase" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -164,12 +167,13 @@
                             android:layout_width="12sp"
                             android:layout_height="12sp"
                             android:layout_marginRight="4dp"
-                            android:src="@drawable/ic_ovulation" />
+                            android:src="@drawable/ic_ovulation"
+                            android:contentDescription="@string/ovulationsphase"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ovulationsphase" />
+                            android:text="@string/ovulationsphase" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -181,12 +185,13 @@
                             android:layout_width="12sp"
                             android:layout_height="12sp"
                             android:layout_marginRight="4dp"
-                            android:src="@drawable/ic_luteal" />
+                            android:src="@drawable/ic_luteal"
+                            android:contentDescription="@string/lutealphase"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lutealphase" />
+                            android:text="@string/lutealphase" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -212,14 +217,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="Nächste Phasen:"
+                    android:text="@string/n_chste_phasen"
                     android:textSize="24sp" />
 
                 <ImageView
                     android:id="@+id/btn_infoMehr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_info_24" />
+                    android:src="@drawable/baseline_info_24"
+                    android:contentDescription="@string/info_icon" />
             </LinearLayout>
 
             <com.applandeo.materialcalendarview.CalendarView

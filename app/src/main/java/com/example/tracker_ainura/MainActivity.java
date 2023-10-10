@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Home-Activity:
+ * Start-Activity:
  *
  * rechnet aus und präsentiert nächste Phasen mit Trainingsempfehlung.
  * von hier aus wird ein Zyklus gestartet/beendet.
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         database_zyklen = RoomDB.getInstance(this);
         zyklen = database_zyklen.zyklenDao().getAll();
 
+        // Daten aus SharedPreferences holen und umformen
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
-
         String strLaenge = prefs.getString("laenge", "");
         String strLaengeMens = prefs.getString("laengeMens", "");
         int laenge = Integer.parseInt(strLaenge);
@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         createWorkRequest();
     }
 
+    /**
+     * Methode, die Clicklistener für Info-Icon auf Aktuell-CardView aufsetzt (führt zu Wissen-Activity)
+     * */
     private void setUpAktuell() {
         binding.btnInfoWissen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Methode, die sich um Zyklus/Blutung-Btn kümmert.
-     * Blutung-Zustand wird aus SharedPreferences geholt -> bestimmt Text und Intent des Btns (führt entweder zu NeuePeriodeActivity oder EndePeriodeActivity)*/
+     * Blutung-Zustand wird aus SharedPreferences geholt -> bestimmt Text und Intent des Btns (führt entweder zu NeuePeriodeActivity oder EndePeriodeActivity)
+     * */
     private void setUpBtn() {
         SharedPreferences prefs = getSharedPreferences("SharedPrefs", MODE_PRIVATE);
         boolean periode = prefs.getBoolean("Periode", false);
@@ -203,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         long daysBetween = ChronoUnit.DAYS.between(date1, date2.plusDays(1));
         ZoneId zoneId = ZoneId.systemDefault();
 
+        // Calendars werden gebraucht, um EventDays zu erstellen. Eine Liste mit Eventdays regelt die Darstellung der Icons im CalendarView
         Calendar m0Cal = Calendar.getInstance(); // Mensphase des aktuellen Zyklus (wird nur während Mensphase angezeigt)
         Calendar m1Cal = Calendar.getInstance(); // Mensphase des nächsten Zyklus'
         Calendar m2Cal = Calendar.getInstance(); // Mensphase des übernächsten Zyklus'
@@ -221,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         if (daysBetween <= zyklus) {
             List<EventDay> phasen = new ArrayList<>(); // EventDay besteht aus einem Calendar
 
-            // die Calendars werden durch die Dates eingestellt
+            // die Calendars werden durch die Dates eingestellt (einfacher mit LocalDates zu manipulieren als Calendars)
             Date m0Dat = new Date();
             Date m1Dat = new Date();
             Date m2Dat = new Date();
@@ -342,6 +347,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Methode, die EventDay-List ausfüllt
+     * Parameter: vorher erstellte Calendars
+     * */
     private void setUpIcons(List<EventDay> phasen, Calendar m1Cal, Calendar m2Cal, Calendar m3Cal, Calendar f1Cal, Calendar f2Cal, Calendar f3Cal, Calendar o1Cal, Calendar o2Cal, Calendar o3Cal, Calendar l1Cal, Calendar l2Cal, Calendar l3Cal, int laengeMens) {
         phasen.add(new EventDay(m1Cal, R.drawable.ic_mens));
         phasen.add(new EventDay(m2Cal, R.drawable.ic_mens));

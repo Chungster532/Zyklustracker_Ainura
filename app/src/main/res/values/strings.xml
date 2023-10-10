@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tracker</string>
+    <string name="app_name">FlowLog</string>
     <string name="notiz">Notiz</string>
     <string name="einstellungen">Einstellungen</string>
     <string name="wissen">Wissen</string>
@@ -12,4 +12,27 @@
     <string name="letzterTag">1. Tag des aktuellen Zyklus (1. Tag Blutung)</string>
     <string name="ausw_hlen">Auswählen</string>
     <string name="starten">Starten</string>
+    <string name="l_nge_periode_ndern">Länge Periode ändern</string>
+    <string name="l_nge_zyklus_ndern">Länge Zyklus ändern</string>
+    <string name="w_hle_den_ersten_tag_deiner_periode_aus">Wähle den ersten Tag deiner Periode aus:</string>
+    <string name="speichern">Speichern</string>
+    <string name="legendeCalendar">Der 1. Tag einer Phase ist mit dem jeweiligen Icon markiert. Es werden die nächsten 3 Zyklen angezeigt.</string>
+    <string name="menstruationsphase">Menstruationsphase</string>
+    <string name="follikelphase">Follikelphase</string>
+    <string name="ovulationsphase">Ovulationsphase</string>
+    <string name="lutealphase">Lutealphase</string>
+    <string name="n_chste_phasen">Nächste Phasen:</string>
+    <string name="info_icon">Info-Icon</string>
+    <string name="training">Training</string>
+    <string name="st_rke_blutung">Stärke Blutung</string>
+    <string name="stimmung">Stimmung</string>
+    <string name="sonstiges_z_b_ern_hrung_schlaf_gewicht_etc">Sonstiges (z.B. Ernährung, Schlaf, Gewicht, etc.)</string>
+    <string name="appMotto">Know Your Flow</string>
+    <string name="aboutApp">Ainura Gut, 2023</string>
+    <string name="klicken_zum_bearbeiten_gedr_ckt_halten_um_zu_l_schen">Klicken zum Bearbeiten, gedrückt halten um zu löschen</string>
+    <string name="notiz_erstellen">Notiz erstellen</string>
+    <string name="durchschnittliche_zyklus_l_nge">Durchschnittliche Zyklus-Länge:</string>
+    <string name="aktuelle_l_nge_periode">Aktuelle Länge Periode:</string>
+    <string name="letzte_zyklen">Letzte Zyklen:</string>
+    <string name="w_hle_den_letzten_tag_deiner_periode_aus">Wähle den letzten Tag deiner Periode aus:</string>
 </resources>

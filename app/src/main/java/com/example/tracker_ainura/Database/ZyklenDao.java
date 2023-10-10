@@ -14,6 +14,9 @@ import com.example.tracker_ainura.Models.Zyklen;
 
 import java.util.List;
 
+/**
+ * Interface für Zyklen-Entity
+ * */
 @Dao
 public interface ZyklenDao {
 
