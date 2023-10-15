@@ -79,6 +79,8 @@ public class EinstellungenActivity extends AppCompatActivity {
         laengeDialog.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
+                String laengeZyklus = prefs.getString("laenge", "");
                 laengeMens = laengeInput.getText().toString();
                 if(laengeMens.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Nice try. Aber es werden keine leeren Eingaben gespeichert.", Toast.LENGTH_LONG).show();
@@ -87,12 +89,10 @@ public class EinstellungenActivity extends AppCompatActivity {
                 }else if(Integer.parseInt(laengeZyklus)<Integer.parseInt(laengeMens)){
                     Toast.makeText(getApplicationContext(), "Zyklus darf nicht kürzer als Periode sein", Toast.LENGTH_LONG).show();
                 }else{
-                    SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("laengeMens", laengeMens);
                     editor.commit();
                     Toast.makeText(getApplicationContext(), "Neue Periodenlänge wurde gespeichert", Toast.LENGTH_LONG).show();
-                    finish();
                 }
             }
         });
@@ -168,7 +168,6 @@ public class EinstellungenActivity extends AppCompatActivity {
                     editor.putString("laenge", laengeZyklus);
                     editor.commit();
                     Toast.makeText(getApplicationContext(), "Neue Zykluslänge wurde gespeichert", Toast.LENGTH_LONG).show();
-                    finish();
                 }
             }
         });

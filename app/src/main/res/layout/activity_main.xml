@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:fillViewport="true">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,52 +33,52 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     android:padding="4dp">
 
                     <TextView
                         android:id="@+id/textview_phase"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="12dp"
                         android:textColor="@color/white"
                         android:textSize="24sp"
-                        tools:text="Tag: Phase"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        tools:text="Tag: Phase" />
 
                     <ImageView
                         android:id="@+id/btn_infoWissen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/info_icon"
                         android:src="@drawable/baseline_info_24"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="@string/info_icon"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/textview_trainingsempfehlung"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Trainingsempfehlung"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textAlignment="center"/>
+                    tools:text="Trainingsempfehlung" />
 
                 <TextView
                     android:id="@+id/textview_mehrIntent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="*Klick hier, um mehr zu erfahren*"
                     android:layout_marginBottom="12dp"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textAlignment="center"/>
+                    tools:text="*Klick hier, um mehr zu erfahren*" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -96,24 +97,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="4dp">
+
                 <ImageView
                     android:id="@+id/btn_infoWeg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:rotation="90"
                     android:src="@drawable/baseline_not_interested_24"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:rotation="90"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -131,8 +134,8 @@
                             android:layout_width="12sp"
                             android:layout_height="12sp"
                             android:layout_marginRight="4dp"
-                            android:src="@drawable/ic_mens"
-                            android:contentDescription="@string/menstruationsphase" />
+                            android:contentDescription="@string/menstruationsphase"
+                            android:src="@drawable/ic_mens" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -149,8 +152,8 @@
                             android:layout_width="12sp"
                             android:layout_height="12sp"
                             android:layout_marginRight="4dp"
-                            android:src="@drawable/ic_follikel"
-                            android:contentDescription="@string/follikelphase"/>
+                            android:contentDescription="@string/follikelphase"
+                            android:src="@drawable/ic_follikel" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -167,8 +170,8 @@
                             android:layout_width="12sp"
                             android:layout_height="12sp"
                             android:layout_marginRight="4dp"
-                            android:src="@drawable/ic_ovulation"
-                            android:contentDescription="@string/ovulationsphase"/>
+                            android:contentDescription="@string/ovulationsphase"
+                            android:src="@drawable/ic_ovulation" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -185,8 +188,8 @@
                             android:layout_width="12sp"
                             android:layout_height="12sp"
                             android:layout_marginRight="4dp"
-                            android:src="@drawable/ic_luteal"
-                            android:contentDescription="@string/lutealphase"/>
+                            android:contentDescription="@string/lutealphase"
+                            android:src="@drawable/ic_luteal" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -224,8 +227,8 @@
                     android:id="@+id/btn_infoMehr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_info_24"
-                    android:contentDescription="@string/info_icon" />
+                    android:contentDescription="@string/info_icon"
+                    android:src="@drawable/baseline_info_24" />
             </LinearLayout>
 
             <com.applandeo.materialcalendarview.CalendarView

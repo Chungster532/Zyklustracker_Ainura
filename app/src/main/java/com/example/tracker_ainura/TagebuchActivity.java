@@ -75,6 +75,11 @@ public class TagebuchActivity extends AppCompatActivity implements PopupMenu.OnM
         });
     }
 
+    /**
+     * Methode, die Text für Searchbar filtert
+     *
+     * @param newText Text aus Searchbar (mit jeder Änderung der Eingabe wird dieser neu eingereicht)
+     * */
     private void filter(String newText){
         List<Notizen> filteredList = new ArrayList<>();
         for (Notizen singleNote : notizen){

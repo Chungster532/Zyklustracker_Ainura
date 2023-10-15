@@ -85,8 +85,19 @@ public class NotizActivity extends AppCompatActivity {
         String sonstiges = binding.editTextSonstiges.getText().toString();
         String tagZyklus = tagZyklusAusrechnen(datum);
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
+        String letztePeriode = prefs.getString("letztePeriode", "");
+        LocalDate date1 = LocalDate.parse(datum, formatter );
+        LocalDate date0 = LocalDate.parse(letztePeriode, formatter );
+        LocalDate heute = LocalDate.now();
+
         if (training.isEmpty() || blutung.isEmpty() || stimmung.isEmpty() || sonstiges.isEmpty()){
             Toast.makeText(NotizActivity.this, "Bitte fülle alle Felder aus", Toast.LENGTH_LONG).show();
+        }else if(date1.isAfter(heute)){
+            Toast.makeText(NotizActivity.this, "Es darf kein zukünftiges Datum ausgewählt werden", Toast.LENGTH_SHORT).show();
+        } else if (date1.isBefore(date0)) {
+            Toast.makeText(NotizActivity.this, "Es darf kein früherer Zyklus ausgewählt werden", Toast.LENGTH_SHORT).show();
         } else {
             if (!istAlteNotiz){
                 notiz = new Notizen();

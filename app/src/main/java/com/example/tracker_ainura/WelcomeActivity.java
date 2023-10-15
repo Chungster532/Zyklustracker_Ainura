@@ -56,7 +56,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bitte fülle alle Felder aus", Toast.LENGTH_LONG).show();
                 }else if (Integer.parseInt(laenge)<Integer.parseInt(laengeMens)){
                     Toast.makeText(getApplicationContext(), "Die Periode darf nicht länger als der Zyklus sein", Toast.LENGTH_LONG).show();
-                }else if(Integer.parseInt(laenge)<20 || Integer.parseInt(laenge)>45){
+                }else if(Integer.parseInt(laenge)<18 || Integer.parseInt(laenge)>45){
                     Toast.makeText(getApplicationContext(), "Länge Zyklus invalid", Toast.LENGTH_LONG).show();
                 }else if(Integer.parseInt(laengeMens)>8 || Integer.parseInt(laengeMens)<3){
                     Toast.makeText(getApplicationContext(), "Länge Periode invalid", Toast.LENGTH_LONG).show();
