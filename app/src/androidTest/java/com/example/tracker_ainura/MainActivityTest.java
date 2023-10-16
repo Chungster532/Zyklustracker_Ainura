@@ -13,6 +13,9 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Klasse für UI-Test MainActivity
+ * */
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class MainActivityTest {
     @Test
